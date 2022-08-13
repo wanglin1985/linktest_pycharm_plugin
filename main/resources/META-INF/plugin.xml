@@ -1,0 +1,54 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <!-- Unique identifier of the plugin. It should be FQN. It cannot be changed between the plugin versions. -->
+    <id>com.github.lintest</id>
+
+    <!-- Public plugin name should be written in Title Case.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
+    <name>lintest</name>
+    <version>1.0</version>
+
+    <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
+    <vendor email="think_wl@163.com" url="https://www.163.com">lintest</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        <b>test.</b>
+        <br>
+        testRun Plugin
+        <h2>适用环境</h2>
+        PyCharm 2020.1及以上版本
+        <br>
+    ]]></description>
+
+    <idea-version since-build="203"/>
+
+    <depends>com.intellij.modules.python</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+    <actions>
+        <action id="com.github.lintest.FirstAction" class="com.github.lintest.FirstAction"
+                text="FirstAction" description="test desc">
+            <add-to-group group-id="HelpMenu" anchor="first"/>
+        </action>
+        <action id="com.github.lintest.RunCase" class="com.github.lintest.RunCase"
+                text="LinTestRunCase" description="LinTestRunTestCase">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.lintest.RunPackage" class="com.github.lintest.RunPackage"
+                text="LinTestRunPackage" description="LinTestRunPackage">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.lintest.RunWithUI" class="com.github.lintest.RunWithUI"
+                text="LinTestRunByTag" description="LinTestRunTagWithUI">
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="com.github.lintest.RunCase"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="com.github.lintest.RunPackage"/>
+        </action>
+    </actions>
+</idea-plugin>

@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.8.0'
+}
+
+repositories {
+    mavenCentral()
+}
+
+// See https://github.com/JetBrains/gradle-intellij-plugin/
+intellij {
+    plugins = ['PythonCore', 'org.jetbrains.plugins.terminal']
+    version = '2020.3'
+    type = 'PC'
+    downloadSources = false
+    updateSinceUntilBuild = false
+}
+
+buildSearchableOptions {
+    enabled = false
+}

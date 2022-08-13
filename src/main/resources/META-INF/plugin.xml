@@ -1,0 +1,43 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>lin.wang.plugin.lintest</id>
+    <name>lintest</name>
+    <version>1.0</version>
+
+    <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
+    <description><![CDATA[
+        <p>PyCharm Plugin for lintest Automation Framework</p>
+        <p>Convenient execution of lintest (by case/package/tag)</p>
+    ]]></description>
+
+    <idea-version since-build="200"/>
+
+    <depends>com.intellij.modules.python</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+
+    </extensions>
+    <actions>
+        <action id="com.github.lintest.RunCase" class="com.github.lintest.RunCase"
+                text="LinTestRunCase" description="LinTestRunTestCase">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.lintest.RunPackage" class="com.github.lintest.RunPackage"
+                text="LinTestRunPackage" description="LinTestRunPackage">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.lintest.RunWithUI" class="com.github.lintest.RunWithUI"
+                text="LinTestRunByInputs" description="LinTestRunWithUI">
+            <add-to-group group-id="EditorPopupMenu" anchor="after"
+                          relative-to-action="com.github.lintest.RunCase"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="com.github.lintest.RunPackage"/>
+        </action>
+    </actions>
+</idea-plugin>
