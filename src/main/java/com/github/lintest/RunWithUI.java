@@ -38,8 +38,6 @@ public class RunWithUI extends AnAction {
                     selectedText.trim().endsWith("(UITestCase):") || selectedText.trim().endsWith("(IOSTestCase):") ||
                     selectedText.trim().endsWith("(AndroidTestCase):"))) {
                 // 合法的 lintest Case类定义, 此时自动提取出 ClassName 并赋值给 searchText输入框
-                System.out.println(selectedText.trim().replace("class ", ""));
-                System.out.println(selectedText.trim().replace("class ", "").split("\\(")[0]);
                 testRunWithInputs.setInputText(
                         selectedText.trim().replace("class ", "").split("\\(")[0]
                 );
@@ -66,9 +64,7 @@ public class RunWithUI extends AnAction {
             String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " " +
                     testRunWithInputs.getInputText() + " env=" + testRunWithInputs.getEnv() +
                     " threads=" + testRunWithInputs.getThreadCount();
-            System.out.println(command);
-            System.out.println(command);
-            System.out.println(command);
+//            System.out.println(command);
 
             try {
                 terminalView.createLocalShellWidget(project.getBasePath(), "LinTestRun").executeCommand(command);

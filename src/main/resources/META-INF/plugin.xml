@@ -22,22 +22,34 @@
 
     </extensions>
     <actions>
-        <action id="com.github.lintest.RunCase" class="com.github.lintest.RunCase"
-                text="LinTestRunCase" description="LinTestRunTestCase">
+<!--        <action id="com.github.lintest.RunCase" class="com.github.lintest.RunCase" icon="/icons/execute_blue.svg"-->
+<!--                text="lintest Run By CaseName" description="LinTestRunTestCase">-->
+<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+<!--        </action>-->
+        <action id="com.github.lintest.RunSelected"
+                class="com.github.lintest.RunSelected"
+                icon="/icons/execute_blue.svg"
+                text="lintest Run Based On Selection"
+                description="lintest Run Based On Selection">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.github.lintest.RunPackage" class="com.github.lintest.RunPackage"
-                text="LinTestRunPackage" description="LinTestRunPackage">
+        <action id="com.github.lintest.RunPackage"
+                class="com.github.lintest.RunPackage"
+                text="lintest Run Based On Package"
+                description="LinTestRunPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.github.lintest.RunWithUI" class="com.github.lintest.RunWithUI"
-                text="LinTestRunByInputs" description="LinTestRunWithUI">
+        <action id="com.github.lintest.RunWithUI"
+                class="com.github.lintest.RunWithUI"
+                icon="/icons/execute_blue.svg"
+                text="lintest Run Based On Input"
+                description="LinTestRunWithUI">
             <add-to-group group-id="EditorPopupMenu" anchor="after"
-                          relative-to-action="com.github.lintest.RunCase"/>
-            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
-                          relative-to-action="com.github.lintest.RunPackage"/>
+                          relative-to-action="com.github.lintest.RunSelected"/>
+<!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"-->
+<!--                          relative-to-action="com.github.lintest.RunPackage"/>-->
         </action>
     </actions>
 </idea-plugin>

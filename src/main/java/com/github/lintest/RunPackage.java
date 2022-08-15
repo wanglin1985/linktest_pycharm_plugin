@@ -19,7 +19,6 @@ public class RunPackage extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         // 获取到editor和project
-        Editor editor = e.getData(CommonDataKeys.EDITOR);
         Project project = e.getData(CommonDataKeys.PROJECT);
         Navigatable navigatable = e.getData(CommonDataKeys.NAVIGATABLE);
 
