@@ -13,13 +13,13 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <text value="CaseId/tag/package:"/>
+          <text value="CaseID/Tag/Package:"/>
         </properties>
       </component>
       <component id="f56a4" class="javax.swing.JTextField" binding="searchText">
         <constraints>
           <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="280" height="-1"/>
           </grid>
         </constraints>
         <properties/>
@@ -35,7 +35,7 @@
       <component id="ae007" class="javax.swing.JTextField" binding="environment">
         <constraints>
           <grid row="1" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="280" height="-1"/>
           </grid>
         </constraints>
         <properties>
@@ -53,7 +53,7 @@
       <component id="f017e" class="javax.swing.JTextField" binding="threadCount">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
+            <preferred-size width="280" height="-1"/>
           </grid>
         </constraints>
         <properties>

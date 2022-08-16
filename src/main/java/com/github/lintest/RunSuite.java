@@ -15,7 +15,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class RunSuit extends AnAction {
+public class RunSuite extends AnAction {
 
 
     @Override
@@ -57,7 +57,7 @@ public class RunSuit extends AnAction {
         String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " " + caseNameListInSuitFile;
 
         try {
-            terminalView.createLocalShellWidget(project.getBasePath(), "LinTestRun").executeCommand(command);
+            terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
         } catch (IOException err) {
             err.printStackTrace();
         }

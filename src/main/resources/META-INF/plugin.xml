@@ -22,8 +22,8 @@
 
     </extensions>
     <actions>
-        <action id="com.github.lintest.RunSuit" class="com.github.lintest.RunSuit" icon="/icons/execute_blue.svg"
-                text="Run Based On TestSuit" description="LinTestRunTestSuit">
+        <action id="com.github.lintest.RunSuite" class="com.github.lintest.RunSuite" icon="/icons/execute_blue.svg"
+                text="Run Based On TestSuite" description="RunTestTestSuite">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
         <action id="com.github.lintest.RunSelected"
@@ -38,7 +38,7 @@
                 class="com.github.lintest.RunPackage"
                 icon="/icons/execute_blue.svg"
                 text="Run Based On Package"
-                description="LinTestRunPackage">
+                description="RunTestPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
@@ -46,7 +46,7 @@
                 class="com.github.lintest.RunWithUI"
                 icon="/icons/execute_blue.svg"
                 text="Run Based On Input"
-                description="LinTestRunWithUI">
+                description="RunTestWithUI">
             <add-to-group group-id="EditorPopupMenu" anchor="after"
                           relative-to-action="com.github.lintest.RunSelected"/>
 <!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"-->

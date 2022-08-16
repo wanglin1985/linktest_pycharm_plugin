@@ -52,7 +52,7 @@ public class RunWithUI extends AnAction {
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(testRunWithInputs.getRootPanel());
-        dialogBuilder.setTitle("Please input tag/caseId/packageName env threads:");
+        dialogBuilder.setTitle("Please enter the startup parameters");
         dialogBuilder.setOkOperation(() -> {
             System.out.println(testRunWithInputs.getInputText());
             System.out.println(testRunWithInputs.getEnv());
@@ -67,7 +67,7 @@ public class RunWithUI extends AnAction {
 //            System.out.println(command);
 
             try {
-                terminalView.createLocalShellWidget(project.getBasePath(), "LinTestRun").executeCommand(command);
+                terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
             } catch (IOException err) {
                 err.printStackTrace();
             }

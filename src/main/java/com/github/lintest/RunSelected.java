@@ -46,7 +46,7 @@ public class RunSelected extends AnAction {
         String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " " + selectedText;
 
         try {
-            terminalView.createLocalShellWidget(project.getBasePath(), "LinTestRun").executeCommand(command);
+            terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
         } catch (IOException err) {
             err.printStackTrace();
         }
