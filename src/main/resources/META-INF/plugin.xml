@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.0</version>
+    <version>1.0.0</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -22,21 +22,22 @@
 
     </extensions>
     <actions>
-<!--        <action id="com.github.lintest.RunCase" class="com.github.lintest.RunCase" icon="/icons/execute_blue.svg"-->
-<!--                text="lintest Run By CaseName" description="LinTestRunTestCase">-->
-<!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-<!--        </action>-->
+        <action id="com.github.lintest.RunSuit" class="com.github.lintest.RunSuit" icon="/icons/execute_blue.svg"
+                text="Run Based On TestSuit" description="LinTestRunTestSuit">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
         <action id="com.github.lintest.RunSelected"
                 class="com.github.lintest.RunSelected"
                 icon="/icons/execute_blue.svg"
-                text="lintest Run Based On Selection"
+                text="Run Based On Selection"
                 description="lintest Run Based On Selection">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
         <action id="com.github.lintest.RunPackage"
                 class="com.github.lintest.RunPackage"
-                text="lintest Run Based On Package"
+                icon="/icons/execute_blue.svg"
+                text="Run Based On Package"
                 description="LinTestRunPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -44,7 +45,7 @@
         <action id="com.github.lintest.RunWithUI"
                 class="com.github.lintest.RunWithUI"
                 icon="/icons/execute_blue.svg"
-                text="lintest Run Based On Input"
+                text="Run Based On Input"
                 description="LinTestRunWithUI">
             <add-to-group group-id="EditorPopupMenu" anchor="after"
                           relative-to-action="com.github.lintest.RunSelected"/>

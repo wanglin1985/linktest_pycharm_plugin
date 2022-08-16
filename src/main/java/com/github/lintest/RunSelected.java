@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import org.jetbrains.plugins.terminal.TerminalView;
 
 import java.io.File;
@@ -27,17 +28,18 @@ public class RunSelected extends AnAction {
         SelectionModel selectionModel = editor.getSelectionModel();
 
         // 拿到选中部分字符串
-        // todo: 此处应该enhance一下,判断选择的当前行是否包含了 （APITestCase/UITestCase/BaseTestCase),否则不是 case???
         String selectedText = selectionModel.getSelectedText();
 
         if (selectedText != null) {
-            System.out.println(selectedText);
             if (selectedText.trim().startsWith("class ") && (selectedText.trim().endsWith("(APITestCase):") ||
                     selectedText.trim().endsWith("(UITestCase):") || selectedText.trim().endsWith("(IOSTestCase):") ||
                     selectedText.trim().endsWith("(AndroidTestCase):"))) {
                 // 合法的 lintest Case类定义, 此时自动提取出 ClassName
                 selectedText = selectedText.trim().replace("class ", "").split("\\(")[0];
             }
+        } else {
+            Messages.showMessageDialog(project, selectedText, "没有选择任何内容", Messages.getErrorIcon());
+            return;
         }
 
         TerminalView terminalView = TerminalView.getInstance(project);
