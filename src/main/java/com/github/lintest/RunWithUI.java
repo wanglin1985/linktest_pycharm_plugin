@@ -3,6 +3,7 @@ package com.github.lintest;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
@@ -25,46 +26,91 @@ public class RunWithUI extends AnAction {
             return;
         }
 
-        TestRunWithInputs testRunWithInputs = new TestRunWithInputs();
-
         // 获取光标选中文本段对象和doc对象
         SelectionModel selectionModel = editor.getSelectionModel();
+
+        Document document = editor.getDocument();
+
+        // 拿到选中部分字符串
         String selectedText = selectionModel.getSelectedText();
-        System.out.println(selectedText);
 
-        if (selectedText != null) {
-            System.out.println(selectedText);
-            if (selectedText.trim().startsWith("class ") && (selectedText.trim().endsWith("(APITestCase):") ||
-                    selectedText.trim().endsWith("(UITestCase):") || selectedText.trim().endsWith("(IOSTestCase):") ||
-                    selectedText.trim().endsWith("(AndroidTestCase):"))) {
-                // 合法的 lintest Case类定义, 此时自动提取出 ClassName 并赋值给 searchText输入框
-                testRunWithInputs.setInputText(
-                        selectedText.trim().replace("class ", "").split("\\(")[0]
-                );
-            }
-            // todo: 合理的 package path
-            else {
-                testRunWithInputs.setInputText(selectedText);
+        int startOffset = selectionModel.getSelectionStart();
+        int endOffset = selectionModel.getSelectionEnd();
+        int startLineNumber = document.getLineNumber(startOffset);
+        int curLineNumber = document.getLineNumber(endOffset);
+
+        String[] lines = editor.getDocument().getText().split(System.lineSeparator());
+        int lineNum = startLineNumber;
+
+        String caseId = "";
+        String tagStr = "";
+
+        int i_in_selected_text_lines = 0;
+
+        while (lineNum <= curLineNumber) {
+            String lineContent = "";
+            try {
+                lineContent = lines[lineNum];
+            } catch (ArrayIndexOutOfBoundsException arrayIndexOutOfBoundsException) {
+                break;
             }
 
+            if (lineContent.trim().startsWith("class ") && (lineContent.trim().endsWith("(APITestCase):") ||
+                    lineContent.trim().endsWith("(UITestCase):") || lineContent.trim().endsWith("(IOSTestCase):") ||
+                    lineContent.trim().endsWith("(AndroidTestCase):"))) {
+                // 合法的 lintest Case类定义, 此时自动提取出 ClassName
+                caseId += lineContent.trim().replace("class ", "").split("\\(")[0] + ",";
+            } else if (lineContent.replaceAll(" ", "").startsWith("tag=")) {
+                lineContent = lineContent.trim().replaceAll(" ", "").
+                        replace("tag=", "").replaceAll("'", "").
+                        replaceAll("\"", "");
+                String[] tagsInLine = lineContent.trim().split(",");
+                String selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+                selectedTagName = selectedTagName.replaceAll("'", "").
+                        replaceAll("\"", "").replaceAll(" ", "").
+                        replace("tag=", "");
+                String[] selectedTagNameList = new String[0];
+                selectedTagNameList = selectedTagName.split(",");
+
+                for (int i = 0; i < selectedTagNameList.length; i++) {
+                    for (int j = 0; j < tagsInLine.length; j++) {
+                        if (tagsInLine[j].trim().equals(selectedTagNameList[i].trim())){
+                            tagStr += tagsInLine[j].trim() + ",";
+                            break;
+                        }
+                    }
+                }
+
+                if (tagStr.length() > 0) {
+                    tagStr = tagStr.substring(0, tagStr.length() -1);
+                }
+            }
+
+            lineNum++;
+            i_in_selected_text_lines++;
         }
 
+        if (caseId.length() > 0) {
+            caseId = caseId.substring(0, caseId.length() -1);
+        } else if (tagStr.length() > 0) {
+            // 没有找到 合法的case 类定义， 但是找到了 合法的  tagName, 如果找到了 合法的类定义，则会 忽略 tageName
+            caseId = tagStr;
+        }
+
+        TestRunWithInputs testRunWithInputs = new TestRunWithInputs();
+
+        testRunWithInputs.setInputText(caseId);
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(testRunWithInputs.getRootPanel());
         dialogBuilder.setTitle("Please enter the startup parameters");
         dialogBuilder.setOkOperation(() -> {
-            System.out.println(testRunWithInputs.getInputText());
-            System.out.println(testRunWithInputs.getEnv());
-            System.out.println(testRunWithInputs.getThreadCount());
-
             dialogBuilder.getDialogWrapper().close(0);
 
             TerminalView terminalView = TerminalView.getInstance(project);
-            String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " " +
+            String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " case_id=" +
                     testRunWithInputs.getInputText() + " env=" + testRunWithInputs.getEnv() +
                     " threads=" + testRunWithInputs.getThreadCount();
-//            System.out.println(command);
 
             try {
                 terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);

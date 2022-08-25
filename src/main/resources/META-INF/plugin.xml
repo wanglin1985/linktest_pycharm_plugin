@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -11,24 +11,26 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
         <p>PyCharm Plugin for lintest Automation Framework</p>
-        <p>Convenient execution of lintest (by case/package/tag)</p>
+        <p>Convenient execution of lintest (by case/package/tag/suite)</p>
     ]]></description>
 
     <idea-version since-build="200"/>
 
     <depends>com.intellij.modules.python</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
+    <extensions defaultExtensionNs="com.intellij"></extensions>
 
-    </extensions>
     <actions>
-        <action id="com.github.lintest.RunSuite" class="com.github.lintest.RunSuite" icon="/icons/execute_blue.svg"
-                text="Run Based On TestSuite" description="RunTestTestSuite">
+        <action id="com.github.lintest.RunSuite"
+                class="com.github.lintest.RunSuite"
+                icon="/icons/runSuite.svg"
+                text="Run Based On TestSuite"
+                description="RunTestTestSuite">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
         <action id="com.github.lintest.RunSelected"
                 class="com.github.lintest.RunSelected"
-                icon="/icons/execute_blue.svg"
+                icon="/icons/selectRun.svg"
                 text="Run Based On Selection"
                 description="lintest Run Based On Selection">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
@@ -36,21 +38,31 @@
 
         <action id="com.github.lintest.RunPackage"
                 class="com.github.lintest.RunPackage"
-                icon="/icons/execute_blue.svg"
+                icon="/icons/packageRun.svg"
                 text="Run Based On Package"
                 description="RunTestPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
+        <action id="com.github.lintest.RunPackageWithInput"
+                class="com.github.lintest.RunPackageWithInput"
+                icon="/icons/executeSelection_dark.svg"
+                text="Run Based On Package With Input"
+                description="RunPackageWithInput">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
+                          relative-to-action="com.github.lintest.RunPackage"/>
+        </action>
+
+
         <action id="com.github.lintest.RunWithUI"
                 class="com.github.lintest.RunWithUI"
-                icon="/icons/execute_blue.svg"
+                icon="/icons/executeSelection_dark.svg"
                 text="Run Based On Input"
                 description="RunTestWithUI">
             <add-to-group group-id="EditorPopupMenu" anchor="after"
                           relative-to-action="com.github.lintest.RunSelected"/>
-<!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"-->
-<!--                          relative-to-action="com.github.lintest.RunPackage"/>-->
+            <!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"-->
+            <!--                          relative-to-action="com.github.lintest.RunPackage"/>-->
         </action>
     </actions>
 </idea-plugin>
