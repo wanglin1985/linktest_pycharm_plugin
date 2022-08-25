@@ -65,7 +65,14 @@ public class RunSelected extends AnAction {
                         replace("tag=", "").replaceAll("'", "").
                         replaceAll("\"", "");
                 String[] tagsInLine = lineContent.trim().split(",");
-                String selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+
+                String selectedTagName = "";
+                if (selectedText != null) {
+                    selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+                } else {
+                    selectedTagName = lineContent;
+                }
+
                 selectedTagName = selectedTagName.replaceAll("'", "").
                         replaceAll("\"", "").replaceAll(" ", "").
                         replace("tag=", "");
@@ -74,7 +81,7 @@ public class RunSelected extends AnAction {
 
                 for (int i = 0; i < selectedTagNameList.length; i++) {
                     for (int j = 0; j < tagsInLine.length; j++) {
-                        if (tagsInLine[j].trim().equals(selectedTagNameList[i].trim())){
+                        if (tagsInLine[j].trim().equals(selectedTagNameList[i].trim())) {
                             tagStr += tagsInLine[j].trim() + ",";
                             break;
                         }
@@ -82,7 +89,7 @@ public class RunSelected extends AnAction {
                 }
 
                 if (tagStr.length() > 0) {
-                    tagStr = tagStr.substring(0, tagStr.length() -1);
+                    tagStr = tagStr.substring(0, tagStr.length() - 1);
                 }
             }
 
@@ -91,7 +98,7 @@ public class RunSelected extends AnAction {
         }
 
         if (caseId.length() > 0) {
-            caseId = caseId.substring(0, caseId.length() -1);
+            caseId = caseId.substring(0, caseId.length() - 1);
             System.out.println(caseId);
         } else if (tagStr.length() > 0) {
             // 没有找到 合法的case 类定义， 但是找到了 合法的  tagName, 如果找到了 合法的类定义，则会 忽略 tageName
