@@ -115,7 +115,7 @@ public class RunWithUI extends AnAction {
             dialogBuilder.getDialogWrapper().close(0);
 
             String inputCaseId = testRunWithInputs.getInputText();
-            inputCaseId = inputCaseId.trim().replaceAll(" +", ",");
+            inputCaseId = inputCaseId.trim().replaceAll(" +", ",").replaceAll(",+", ",");
 
             TerminalView terminalView = TerminalView.getInstance(project);
             String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " case_id=" + inputCaseId
