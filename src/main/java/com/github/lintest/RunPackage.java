@@ -26,8 +26,14 @@ public class RunPackage extends AnAction {
         String selectedPackagePath = navigatable.toString();
 
         if (selectedPackagePath.startsWith("PsiDirectory:")) {
-            selectedPackagePath = selectedPackagePath.split(Objects.requireNonNull(project.getBasePath()))[1];
-            selectedPackagePath = selectedPackagePath.replaceAll(File.separator, ".");
+            selectedPackagePath = selectedPackagePath.split(project.getName())[1];
+
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                selectedPackagePath = selectedPackagePath.replaceAll("\\\\", ".");
+            } else {
+                selectedPackagePath = selectedPackagePath.replaceAll(File.separator, ".");
+            }
+
             if (selectedPackagePath.startsWith(".")) {
                 selectedPackagePath = selectedPackagePath.replaceFirst(".", "");
             }

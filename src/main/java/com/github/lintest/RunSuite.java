@@ -29,14 +29,16 @@ public class RunSuite extends AnAction {
             return;
         }
 
-        // 获取光标选中文本段对象和doc对象
-        String fileContent = "";
-        fileContent = editor.getDocument().getText();
-
         String caseNameListInSuitFile = " ";
+        String[] lines;
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            lines = editor.getDocument().getText().split("\n");
+        } else {
+            lines = editor.getDocument().getText().split(System.lineSeparator());
+        }
 
-        for (int i = 0; i < fileContent.split(System.getProperty("line.separator")).length; i++) {
-            String lineContent = fileContent.split(System.getProperty("line.separator"))[i];
+        for (int i = 0; i < lines.length; i++) {
+            String lineContent = lines[i];
             if (lineContent.trim().startsWith("class ") && (lineContent.trim().endsWith("(APITestCase):") ||
                     lineContent.trim().endsWith("(UITestCase):") || lineContent.trim().endsWith("(IOSTestCase):") ||
                     lineContent.trim().endsWith("(AndroidTestCase):"))) {

@@ -39,7 +39,14 @@ public class RunSelected extends AnAction {
         int startLineNumber = document.getLineNumber(startOffset);
         int curLineNumber = document.getLineNumber(endOffset);
 
-        String[] lines = editor.getDocument().getText().split(System.lineSeparator());
+        String[] lines;
+
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            lines = editor.getDocument().getText().split("\n");
+        } else {
+            lines = editor.getDocument().getText().split(System.lineSeparator());
+        }
+
         int lineNum = startLineNumber;
 
         String caseId = "";
@@ -58,24 +65,34 @@ public class RunSelected extends AnAction {
             if (lineContent.trim().startsWith("class ") && (lineContent.trim().endsWith("(APITestCase):") ||
                     lineContent.trim().endsWith("(UITestCase):") || lineContent.trim().endsWith("(IOSTestCase):") ||
                     lineContent.trim().endsWith("(AndroidTestCase):"))) {
+
                 // 合法的 lintest Case类定义, 此时自动提取出 ClassName
                 caseId += lineContent.trim().replace("class ", "").split("\\(")[0] + ",";
+
             } else if (lineContent.replaceAll(" ", "").startsWith("tag=")) {
+
                 lineContent = lineContent.trim().replaceAll(" ", "").
                         replace("tag=", "").replaceAll("'", "").
                         replaceAll("\"", "");
-                String[] tagsInLine = lineContent.trim().split(",");
+
+                String[] tagsInLine = lineContent.trim().replace("[", "").replace("]", "").split(",");
 
                 String selectedTagName = "";
                 if (selectedText != null) {
-                    selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+                    if (System.getProperty("os.name").startsWith("Windows")) {
+                        selectedTagName = selectedText.split("\n")[i_in_selected_text_lines];
+                    } else {
+                        selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+                    }
                 } else {
                     selectedTagName = lineContent;
                 }
 
                 selectedTagName = selectedTagName.replaceAll("'", "").
+                        replace("[", "").replace("]", "").
                         replaceAll("\"", "").replaceAll(" ", "").
                         replace("tag=", "");
+
                 String[] selectedTagNameList = new String[0];
                 selectedTagNameList = selectedTagName.split(",");
 
@@ -104,7 +121,6 @@ public class RunSelected extends AnAction {
             // 没有找到 合法的case 类定义， 但是找到了 合法的  tagName, 如果找到了 合法的类定义，则会 忽略 tageName
             caseId = tagStr;
         } else {
-            System.out.println("selectedText: " + selectedText);
             if (selectedText != null) {
                 Messages.showMessageDialog(project, selectedText, "选择的内容中没有找到合法的TestCase/tag", Messages.getErrorIcon());
             } else {
@@ -116,6 +132,7 @@ public class RunSelected extends AnAction {
         TerminalView terminalView = TerminalView.getInstance(project);
         String command = "python3 " + project.getBasePath() + File.separator + "run.py case_id=" + caseId;
         System.out.println(command);
+
         try {
             terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
         } catch (IOException err) {

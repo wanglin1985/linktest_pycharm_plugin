@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogBuilder;
+import com.intellij.openapi.ui.Messages;
 import org.jetbrains.plugins.terminal.TerminalView;
 
 import java.io.File;
@@ -39,7 +40,14 @@ public class RunWithUI extends AnAction {
         int startLineNumber = document.getLineNumber(startOffset);
         int curLineNumber = document.getLineNumber(endOffset);
 
-        String[] lines = editor.getDocument().getText().split(System.lineSeparator());
+        String[] lines;
+
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            lines = editor.getDocument().getText().split("\n");
+        } else {
+            lines = editor.getDocument().getText().split(System.lineSeparator());
+        }
+
         int lineNum = startLineNumber;
 
         String caseId = "";
@@ -58,21 +66,30 @@ public class RunWithUI extends AnAction {
             if (lineContent.trim().startsWith("class ") && (lineContent.trim().endsWith("(APITestCase):") ||
                     lineContent.trim().endsWith("(UITestCase):") || lineContent.trim().endsWith("(IOSTestCase):") ||
                     lineContent.trim().endsWith("(AndroidTestCase):"))) {
+
                 // 合法的 lintest Case类定义, 此时自动提取出 ClassName
                 caseId += lineContent.trim().replace("class ", "").split("\\(")[0] + ",";
+
             } else if (lineContent.replaceAll(" ", "").startsWith("tag=")) {
+
                 lineContent = lineContent.trim().replaceAll(" ", "").
                         replace("tag=", "").replaceAll("'", "").
                         replaceAll("\"", "");
 
-                String[] tagsInLine = lineContent.trim().split(",");
+                String[] tagsInLine = lineContent.trim().replace("[", "").replace("]", "").split(",");
+
                 String selectedTagName = "";
                 if (selectedText != null) {
-                    selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+                    if (System.getProperty("os.name").startsWith("Windows")) {
+                        selectedTagName = selectedText.split("\n")[i_in_selected_text_lines];
+                    } else {
+                        selectedTagName = selectedText.split(System.lineSeparator())[i_in_selected_text_lines];
+                    }
                 } else {
                     selectedTagName = lineContent;
                 }
                 selectedTagName = selectedTagName.replaceAll("'", "").
+                        replace("[", "").replace("]", "").
                         replaceAll("\"", "").replaceAll(" ", "").
                         replace("tag=", "");
 
@@ -97,12 +114,14 @@ public class RunWithUI extends AnAction {
             i_in_selected_text_lines++;
         }
 
+
         if (caseId.length() > 0) {
             caseId = caseId.substring(0, caseId.length() - 1);
         } else if (tagStr.length() > 0) {
             // 没有找到 合法的case 类定义， 但是找到了 合法的  tagName, 如果找到了 合法的类定义，则会 忽略 tageName
             caseId = tagStr;
         }
+
 
         TestRunWithInputs testRunWithInputs = new TestRunWithInputs();
 
@@ -115,6 +134,7 @@ public class RunWithUI extends AnAction {
             dialogBuilder.getDialogWrapper().close(0);
 
             String inputCaseId = testRunWithInputs.getInputText();
+
             inputCaseId = inputCaseId.trim().replaceAll(" +", ",").replaceAll(",+", ",");
 
             TerminalView terminalView = TerminalView.getInstance(project);

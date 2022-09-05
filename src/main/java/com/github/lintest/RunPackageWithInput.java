@@ -23,13 +23,21 @@ public class RunPackageWithInput extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         // 获取到editor和project
         Project project = e.getData(CommonDataKeys.PROJECT);
+
         Navigatable navigatable = e.getData(CommonDataKeys.NAVIGATABLE);
 
         String selectedPackagePath = navigatable.toString();
 
         if (selectedPackagePath.startsWith("PsiDirectory:")) {
-            selectedPackagePath = selectedPackagePath.split(Objects.requireNonNull(project.getBasePath()))[1];
-            selectedPackagePath = selectedPackagePath.replaceAll(File.separator, ".");
+
+            selectedPackagePath = selectedPackagePath.split(project.getName())[1];
+
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                selectedPackagePath = selectedPackagePath.replaceAll("\\\\", ".");
+            } else {
+                selectedPackagePath = selectedPackagePath.replaceAll(File.separator, ".");
+            }
+
             if (selectedPackagePath.startsWith(".")) {
                 selectedPackagePath = selectedPackagePath.replaceFirst(".", "");
             }
