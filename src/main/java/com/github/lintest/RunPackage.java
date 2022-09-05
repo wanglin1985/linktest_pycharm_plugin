@@ -9,9 +9,9 @@ import com.intellij.openapi.ui.Messages;
 import com.intellij.pom.Navigatable;
 import org.jetbrains.plugins.terminal.TerminalView;
 
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class RunPackage extends AnAction {

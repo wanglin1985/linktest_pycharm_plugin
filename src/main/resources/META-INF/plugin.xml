@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.0.3</version>
+    <version>1.0.7</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -16,9 +16,14 @@
 
     <idea-version since-build="200"/>
 
-    <depends>com.intellij.modules.python</depends>
 
-    <extensions defaultExtensionNs="com.intellij"></extensions>
+
+    <depends>com.intellij.modules.python</depends>
+    <depends>com.intellij.modules.pycharm</depends>
+    <depends>com.intellij.modules.pycharm.community</depends>
+    <depends>com.intellij.modules.python-core-capable</depends>
+
+<!--    <extensions defaultExtensionNs="com.intellij"></extensions>-->
 
     <actions>
         <action id="com.github.lintest.RunSuite"

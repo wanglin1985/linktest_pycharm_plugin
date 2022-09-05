@@ -1,6 +1,6 @@
 package com.github.lintest;
 
-import com.intellij.execution.dashboard.actions.DebugAction;
+//import com.intellij.execution.dashboard.actions.DebugAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -13,7 +13,6 @@ import org.jetbrains.plugins.terminal.TerminalView;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class RunPackageWithInput extends AnAction {
