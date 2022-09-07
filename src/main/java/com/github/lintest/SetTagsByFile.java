@@ -17,8 +17,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 
-import static java.lang.System.exit;
-
 
 public class SetTagsByFile extends AnAction {
 
@@ -51,16 +49,10 @@ public class SetTagsByFile extends AnAction {
                 inputTagName = inputTagName.substring(0, inputTagName.length() - 1);
             }
 
-            System.out.println(inputTagName);
-            System.out.println(inputTagName);
-
-
             if (inputTagName.length() == 0) {
                 Messages.showMessageDialog("tagName 不能为空", "tagName 不合法", Messages.getErrorIcon());
                 return;
             }
-
-            // todo: 如果 输入的 tagName = ni,hao  这类包含逗号隔开的字符串，那么 针对 tag=[]的情况要再处理一下
 
             String caseNameListInSuitFile = " ";
             String[] lines;
@@ -97,15 +89,12 @@ public class SetTagsByFile extends AnAction {
                 int i = 0;
                 for (i = 0; i < ClassNameLines.size(); i++) {
                     int single_case_line_start = (int) ClassNameLines.get(i);
-//                    System.out.println("single_case_line_start: " + single_case_line_start);
-
                     int index = single_case_line_start;
                     int single_case_line_end = max_line_num;
                     while (index < max_line_num - 1) {
                         index += 1;
                         if (lines[index].trim().startsWith("def run_test")) {
                             single_case_line_end = index;
-//                            System.out.println("single_case_line_end: " + single_case_line_end);
                             break;
                         }
                     }
@@ -117,7 +106,6 @@ public class SetTagsByFile extends AnAction {
                                 lines[single_case_line_start].trim().replaceAll(" +", "").startsWith("tag=\"") ||
                                 lines[single_case_line_start].trim().replaceAll(" +", "").startsWith("tag=['") ||
                                 lines[single_case_line_start].trim().replaceAll(" +", "").startsWith("tag=[\"")) {
-//                            System.out.println("tag  line: " + lines[single_case_line_start]);
                             hasTag = Boolean.TRUE;
                             break;
                         }
@@ -125,13 +113,10 @@ public class SetTagsByFile extends AnAction {
 
                     if (hasTag) {
                         //  直接替换 lines[single_case_line_start] to  newLines[single_case_line_start]
-                        System.out.println("直接替换 lines[single_case_line_start] to  newLines[single_case_line_start]");
                         if (lines[single_case_line_start].trim().endsWith("\"")) {
                             newLines[single_case_line_start] = lines[single_case_line_start].replaceFirst("\"", "\""+inputTagName+",");
                         } else if (lines[single_case_line_start].trim().endsWith("'")) {
-                            System.out.println(inputTagName);
                             inputTagName = inputTagName.replaceAll("\"", "'").replaceAll("'", "").replaceAll(",+", ",");
-                            System.out.println(inputTagName);
                             newLines[single_case_line_start] = lines[single_case_line_start].replaceFirst("'", "'"+inputTagName+",");
                         } else if (lines[single_case_line_start].trim().endsWith("\"]")) {
                             if (inputTagName.indexOf(",") != -1) {
@@ -158,23 +143,16 @@ public class SetTagsByFile extends AnAction {
 
                         }
 
-
                         newLines[single_case_line_start] = newLines[single_case_line_start].replaceAll(",+", ",");
 
                     } else {
                         // 没有tag,则增加 tag='xxx' after line single_case_line_start
-                        System.out.println("--------------------- No Tag ,则增加 tag='xxx' after line single_case_line_start");
-
-                        System.out.println("newLines[single_case_line_start -1]: " + newLines[single_case_line_start - 1]);
 
                         if (System.getProperty("os.name").startsWith("Windows")) {
                             newLines[single_case_line_start - 1] = newLines[single_case_line_start - 1] + "\n" + "    tag = '"+inputTagName+"'";
                         } else {
                             newLines[single_case_line_start - 1] = newLines[single_case_line_start - 1] + System.lineSeparator() + "    tag = '"+inputTagName+"'";
                         }
-
-                        System.out.println("new------： ");
-                        System.out.println(newLines[single_case_line_start - 1]);
 
                     }
                 }
@@ -190,8 +168,6 @@ public class SetTagsByFile extends AnAction {
             //  write newLines to case file
             try {
                 String filePath = ((EditorImpl) editor).getVirtualFile().getPath();
-                System.out.println(filePath);
-
                 Path fP = Path.of(filePath);
                 Files.delete(fP);
                 Files.createFile(fP);
