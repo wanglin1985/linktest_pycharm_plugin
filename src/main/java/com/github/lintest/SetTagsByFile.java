@@ -119,7 +119,8 @@ public class SetTagsByFile extends AnAction {
                         System.out.println(lines[single_case_line_start]);
 
                         //  直接替换 lines[single_case_line_start] to  newLines[single_case_line_start]
-                        if (lines[single_case_line_start].trim().endsWith("\"")) {
+                        if (lines[single_case_line_start].trim().replaceAll(" +", "").endsWith("\"")) {
+                            String inputTagNameTemp = inputTagName;
                             HashSet<String> set = new HashSet<String>();
                             String[] oldTagList = lines[single_case_line_start].replaceAll(" +", "").split("tag=")[1].replaceAll("\"", "").replaceAll(",+", ",").split(",");
                             for (int j = 0; j < oldTagList.length; j++) {
@@ -128,24 +129,26 @@ public class SetTagsByFile extends AnAction {
                                 }
                             }
 
-                            String[] inputTagList = inputTagName.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").split(",");
+                            String[] inputTagList = inputTagNameTemp.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").split(",");
                             for (int j = 0; j < inputTagList.length; j++) {
                                 if (!set.contains(inputTagList[j])){
                                     set.add(inputTagList[j]);
                                 }
                             }
 
-                            inputTagName = "\"";
+                            inputTagNameTemp = "\"";
                             for (String item : set) {
-                                inputTagName += item + ",";
+                                inputTagNameTemp += item + ",";
                             }
 
-                            inputTagName += "\"";
-                            inputTagName = inputTagName.replace("\",", "\"").replace(",\"", "\"");
+                            inputTagNameTemp += "\"";
+                            inputTagNameTemp = inputTagNameTemp.replace("\",", "\"").replace(",\"", "\"");
+                            inputTagNameTemp = inputTagNameTemp.replaceAll("]", "").replaceAll("\\[", "");
 
-                            newLines[single_case_line_start] = "    tag = " + inputTagName;
+                            newLines[single_case_line_start] = "    tag = " + inputTagNameTemp;
 
-                        } else if (lines[single_case_line_start].trim().endsWith("'")) {
+                        } else if (lines[single_case_line_start].trim().replaceAll(" +", "").endsWith("'")) {
+                            String inputTagNameTemp = inputTagName;
                             HashSet<String> set = new HashSet<String>();
                             String[] oldTagList = lines[single_case_line_start].replaceAll(" +", "").split("tag=")[1].replaceAll("'", "").replaceAll(",+", ",").split(",");
                             for (int j = 0; j < oldTagList.length; j++) {
@@ -154,24 +157,25 @@ public class SetTagsByFile extends AnAction {
                                 }
                             }
 
-                            String[] inputTagList = inputTagName.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").split(",");
+                            String[] inputTagList = inputTagNameTemp.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").split(",");
                             for (int j = 0; j < inputTagList.length; j++) {
                                 if (!set.contains(inputTagList[j])){
                                     set.add(inputTagList[j].replaceAll("]", "").replaceAll("\\[", ""));
                                 }
                             }
 
-                            inputTagName = "'";
+                            inputTagNameTemp = "'";
                             for (String item : set) {
-                                inputTagName += item + ",";
+                                inputTagNameTemp += item + ",";
                             }
 
-                            inputTagName += "'";
-                            inputTagName = inputTagName.replace("',", "'").replace(",'", "'").replaceAll("]", "").replaceAll("\\[", "");
+                            inputTagNameTemp += "'";
+                            inputTagNameTemp = inputTagNameTemp.replace("',", "'").replace(",'", "'").replaceAll("]", "").replaceAll("\\[", "");
 
-                            newLines[single_case_line_start] = "    tag = " + inputTagName;
+                            newLines[single_case_line_start] = "    tag = " + inputTagNameTemp;
 
-                        } else if (lines[single_case_line_start].trim().endsWith("\"]")) {
+                        } else if (lines[single_case_line_start].trim().replaceAll(" +", "").endsWith("\"]")) {
+                            String inputTagNameTemp = inputTagName;
 
                             HashSet<String> set = new HashSet<String>();
                             String[] oldTagList = lines[single_case_line_start].replaceAll(" +", "").split("tag=")[1].replaceAll("'", "").replaceAll("\"", "").replaceAll(",+", ",").replaceAll("\\[", "").replaceAll("\\]", "").split(",");
@@ -181,25 +185,26 @@ public class SetTagsByFile extends AnAction {
                                 }
                             }
 
-                            String[] inputTagList = inputTagName.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+                            String[] inputTagList = inputTagNameTemp.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").split(",");
                             for (int j = 0; j < inputTagList.length; j++) {
                                 if (!set.contains(inputTagList[j])){
                                     set.add(inputTagList[j]);
                                 }
                             }
 
-                            inputTagName = "[";
+                            inputTagNameTemp = "[";
                             for (String item : set) {
-                                inputTagName += "\"" + item + "\",";
+                                inputTagNameTemp += "\"" + item + "\",";
                             }
 
-                            inputTagName += "]";
-                            inputTagName = inputTagName.replace(",]", "]");
-                            System.out.println(inputTagName);
+                            inputTagNameTemp += "]";
+                            inputTagNameTemp = inputTagNameTemp.replace(",]", "]");
 
-                            newLines[single_case_line_start] = "    tag = " + inputTagName;
+                            newLines[single_case_line_start] = "    tag = " + inputTagNameTemp;
 
-                        } else if (lines[single_case_line_start].trim().endsWith("\']")) {
+                        } else if (lines[single_case_line_start].trim().replaceAll(" +", "").endsWith("\']")) {
+                            String inputTagNameTemp = inputTagName;
+
                             HashSet<String> set = new HashSet<String>();
                             String[] oldTagList = lines[single_case_line_start].replaceAll(" +", "").split("tag=")[1].replaceAll("'", "").replaceAll("\"", "").replaceAll(",+", ",").replaceAll("\\[", "").replaceAll("\\]", "").split(",");
                             for (int j = 0; j < oldTagList.length; j++) {
@@ -208,23 +213,22 @@ public class SetTagsByFile extends AnAction {
                                 }
                             }
 
-                            String[] inputTagList = inputTagName.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+                            String[] inputTagList = inputTagNameTemp.replaceAll(",+", ",").replaceAll(" +", "").replaceAll("'", "").replaceAll("\"", "").replaceAll("\\[", "").replaceAll("\\]", "").split(",");
                             for (int j = 0; j < inputTagList.length; j++) {
                                 if (!set.contains(inputTagList[j])){
                                     set.add(inputTagList[j]);
                                 }
                             }
 
-                            inputTagName = "[";
+                            inputTagNameTemp = "[";
                             for (String item : set) {
-                                inputTagName += "'" + item + "',";
+                                inputTagNameTemp += "'" + item + "',";
                             }
 
-                            inputTagName += "]";
-                            inputTagName = inputTagName.replace(",]", "]");
-                            System.out.println(inputTagName);
+                            inputTagNameTemp += "]";
+                            inputTagNameTemp = inputTagNameTemp.replace(",]", "]");
 
-                            newLines[single_case_line_start] = "    tag = " + inputTagName;
+                            newLines[single_case_line_start] = "    tag = " + inputTagNameTemp;
 
                         }
 
