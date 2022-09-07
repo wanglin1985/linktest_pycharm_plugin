@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.0.7</version>
+    <version>1.0.8</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -33,6 +33,16 @@
                 description="RunTestTestSuite">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
+        <action id="com.github.lintest.SetTagsByFile"
+                class="com.github.lintest.SetTagsByFile"
+                icon="/icons/edit.svg"
+                text="Set Tags In Batches"
+                description="Set Tags">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+
+
         <action id="com.github.lintest.RunSelected"
                 class="com.github.lintest.RunSelected"
                 icon="/icons/selectRun.svg"
