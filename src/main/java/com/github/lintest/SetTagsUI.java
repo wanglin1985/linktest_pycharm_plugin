@@ -5,6 +5,7 @@ import javax.swing.*;
 public class SetTagsUI {
     private JTextField tagName;
     private JPanel rootPanel;
+    private JList list1;
 
     public JPanel getRootPanel() {
         return rootPanel;

@@ -35,13 +35,13 @@ public class SetTagsByFile extends AnAction {
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(setTagsUI.getRootPanel());
-        dialogBuilder.setTitle("Please enter the TagName");
+        dialogBuilder.setTitle("请输入 tagName");
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
 
             String inputTagName = setTagsUI.getTagName();
 
-            inputTagName = inputTagName.trim().replaceAll(" +", "").replaceAll(",+", ",");
+            inputTagName = inputTagName.trim().replaceAll(" +", "").replaceAll(",+", ",").replaceAll("，", ",").replaceAll("\\[", "").replaceAll("]", "");
             if (inputTagName.startsWith(",")) {
                 inputTagName = inputTagName.replaceFirst(",", "");
             }
