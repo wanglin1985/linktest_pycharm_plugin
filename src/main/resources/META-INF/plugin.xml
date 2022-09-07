@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
