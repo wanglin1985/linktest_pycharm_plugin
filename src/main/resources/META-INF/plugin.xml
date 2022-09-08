@@ -59,6 +59,15 @@
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
+        <action id="com.github.lintest.CreateATestCaseFile"
+                class="com.github.lintest.CreateATestCaseFile"
+                icon="/icons/packageRun.svg"
+                text="Create A TestCase File In This Package"
+                description="CreateATestCaseFileInThisPackage">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+        </action>
+
+
         <action id="com.github.lintest.RunPackageWithInput"
                 class="com.github.lintest.RunPackageWithInput"
                 icon="/icons/executeSelection_dark.svg"

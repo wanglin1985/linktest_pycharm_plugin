@@ -271,7 +271,8 @@ public class SetTagsByFile extends AnAction {
                     }
                 }
 
-                Messages.showMessageDialog("您可能需要reload该文件", "设置成功", Messages.getInformationIcon());
+                Messages.showMessageDialog(inputTagName, "设置tag成功", Messages.getInformationIcon());
+                project.getBaseDir().refresh(false,true);
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
