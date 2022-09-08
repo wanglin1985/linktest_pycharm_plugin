@@ -63,9 +63,18 @@ public class RunWithUI extends AnAction {
                 break;
             }
 
-            if (lineContent.trim().startsWith("class ") && (lineContent.trim().endsWith("(APITestCase):") ||
-                    lineContent.trim().endsWith("(UITestCase):") || lineContent.trim().endsWith("(IOSTestCase):") ||
-                    lineContent.trim().endsWith("(AndroidTestCase):"))) {
+            if (lineContent.startsWith("class ") &&
+                    (
+                            lineContent.trim().replaceAll(" +", "").endsWith("(APITestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith("(UITestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith("(IOSTestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith("(AndroidTestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith(",APITestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith(",UITestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith(",IOSTestCase):") ||
+                                    lineContent.trim().replaceAll(" +", "").endsWith(",AndroidTestCase):")
+                    )
+            ) {
 
                 // 合法的 lintest Case类定义, 此时自动提取出 ClassName
                 caseId += lineContent.trim().replace("class ", "").split("\\(")[0] + ",";
