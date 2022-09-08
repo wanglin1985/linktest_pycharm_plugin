@@ -271,6 +271,8 @@ public class SetTagsByFile extends AnAction {
                     }
                 }
 
+                Messages.showMessageDialog("您可能需要reload该文件", "设置成功", Messages.getInformationIcon());
+
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

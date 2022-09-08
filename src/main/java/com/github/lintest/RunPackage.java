@@ -43,7 +43,7 @@ public class RunPackage extends AnAction {
             return;
         }
 
-        if (selectedPackagePath == null || !selectedPackagePath.startsWith("tests.")) {
+        if (!selectedPackagePath.startsWith("tests.") && !"tests".equals(selectedPackagePath)) {
             Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
                     "不合法的包路径:", Messages.getErrorIcon());
             return;
