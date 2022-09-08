@@ -62,7 +62,7 @@
         <action id="com.github.lintest.CreateATestCaseFile"
                 class="com.github.lintest.CreateATestCaseFile"
                 icon="/icons/packageRun.svg"
-                text="Create A TestCase File In This Package"
+                text="Create TestCase File In This Package"
                 description="CreateATestCaseFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>

@@ -58,7 +58,13 @@ public class CreateATestCaseFile extends AnAction {
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
             String fileName = createTestCaseFileUI.getFileName();
-            fileName = fileName.trim().replaceAll(" +", "");
+            fileName = fileName.trim().replaceAll(" +", "").replaceAll("\\.", ".");
+
+            if (fileName.length() == 0) {
+                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "文件名不能为空", Messages.getErrorIcon());
+                return;
+            }
+
             if (fileName.startsWith(".")) {
                 Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
                 return;
