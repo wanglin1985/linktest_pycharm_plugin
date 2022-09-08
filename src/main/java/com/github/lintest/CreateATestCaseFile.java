@@ -60,7 +60,7 @@ public class CreateATestCaseFile extends AnAction {
             String fileName = createTestCaseFileUI.getFileName();
             fileName = fileName.trim().replaceAll(" +", "");
             if (fileName.startsWith(".")) {
-                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "输入的文件名不合法", Messages.getErrorIcon());
+                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
                 return;
             }
             if (fileName.contains(".")) {
@@ -77,11 +77,11 @@ public class CreateATestCaseFile extends AnAction {
                 }
 
                 if (count > 1) {
-                    Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "输入的文件名不合法", Messages.getErrorIcon());
+                    Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
                     return;
                 } else if (count == 1) {
                     if (!fileName.endsWith(".py")) {
-                        Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "输入的文件名不合法", Messages.getErrorIcon());
+                        Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
                         return;
                     }
                 }
@@ -91,7 +91,7 @@ public class CreateATestCaseFile extends AnAction {
 
             File f = new File(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName);
             if (f.exists()) {
-                Messages.showMessageDialog("该文件已存在", "错误", Messages.getErrorIcon());
+                Messages.showMessageDialog("文件: " + fileName + " 已存在", "错误", Messages.getErrorIcon());
                 return;
             }
 
@@ -189,7 +189,7 @@ public class CreateATestCaseFile extends AnAction {
 
                 }
 
-                Messages.showMessageDialog(fileName, "创建成功", Messages.getInformationIcon());
+                Messages.showMessageDialog(fileName, "成功创建", Messages.getInformationIcon());
                 project.getBaseDir().refresh(false, true);
 
             } catch (IOException ioException) {
