@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.util.regex.Pattern;
 
 
 public class CreateATestCaseFile extends AnAction {
@@ -25,6 +26,10 @@ public class CreateATestCaseFile extends AnAction {
         Project project = e.getData(CommonDataKeys.PROJECT);
         Navigatable navigatable = e.getData(CommonDataKeys.NAVIGATABLE);
         String selectedPackagePath = navigatable.toString();
+
+        System.out.println(selectedPackagePath);
+        String fullPath = "";
+
 
         if (selectedPackagePath.startsWith("PsiDirectory:")) {
             selectedPackagePath = selectedPackagePath.split(project.getName())[1];
@@ -38,15 +43,44 @@ public class CreateATestCaseFile extends AnAction {
             if (selectedPackagePath.startsWith(".")) {
                 selectedPackagePath = selectedPackagePath.replaceFirst(".", "");
             }
+
+            fullPath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath();
+
         } else {
-            Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
-                    "不合法的包路径:", Messages.getErrorIcon());
-            return;
+            String fileName = selectedPackagePath.split(":")[1];
+            System.out.println(fileName);
+            System.out.println(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath());
+            fullPath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().substring(0, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().length() - fileName.length());
+            System.out.println(fullPath);
+
+            selectedPackagePath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().split(project.getName())[1];
+            System.out.println(selectedPackagePath);
+            selectedPackagePath = selectedPackagePath.substring(0, selectedPackagePath.length() - fileName.length());
+            System.out.println(selectedPackagePath);
+
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                selectedPackagePath = selectedPackagePath.replaceAll("\\\\", ".");
+            } else {
+                selectedPackagePath = selectedPackagePath.replaceAll(File.separator, ".");
+            }
+
+            System.out.println(selectedPackagePath);
+
+            if (selectedPackagePath.startsWith(".")) {
+                selectedPackagePath = selectedPackagePath.replaceFirst(".", "");
+                System.out.println(selectedPackagePath);
+            }
+
+            if (selectedPackagePath.endsWith(".")) {
+                selectedPackagePath = selectedPackagePath.substring(0, selectedPackagePath.length() - 1);
+                System.out.println(selectedPackagePath);
+            }
+
         }
 
-        if (!selectedPackagePath.startsWith("tests.") && !"tests".equals(selectedPackagePath)) {
+        if ((!selectedPackagePath.startsWith("tests.") && !"tests".equals(selectedPackagePath)) ){
             Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
-                    "不合法的包路径:", Messages.getErrorIcon());
+                    "不合法的包路径2:", Messages.getErrorIcon());
             return;
         }
 
@@ -54,11 +88,23 @@ public class CreateATestCaseFile extends AnAction {
         createTestCaseFileUI.getApiCheckBox().setSelected(true);
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(createTestCaseFileUI.getRootPanel());
-        dialogBuilder.setTitle("Please enter the parameters");
+        dialogBuilder.setTitle("Add CaseFile in Package");
+        createTestCaseFileUI.setPackagePath(selectedPackagePath.replaceAll(File.separator, "."));
+//        createTestCaseFileUI.setPackagePath(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().split(project.getBasePath() + File.separator)[1].replaceAll(File.separator, "."));
+        createTestCaseFileUI.getPackagePath().setEditable(false);
+        String finalFullPath = fullPath;
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
             String fileName = createTestCaseFileUI.getFileName();
             fileName = fileName.trim().replaceAll(" +", "").replaceAll("\\.", ".");
+            String pyFileRegx = "^[_a-zA-Z]+$";
+            Pattern pattern = Pattern.compile(pyFileRegx);
+            System.out.println(pattern.matcher(fileName).find());
+
+            if (!pattern.matcher(fileName).find()) {
+                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "文件名不合法", Messages.getErrorIcon());
+                return;
+            }
 
             if (fileName.length() == 0) {
                 Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "文件名不能为空", Messages.getErrorIcon());
@@ -124,7 +170,9 @@ public class CreateATestCaseFile extends AnAction {
             }
 
             try {
-                String filePath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName;
+//                String filePath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName;
+                String filePath = finalFullPath + File.separator + fileName;
+                System.out.println(filePath);
                 Path fP = Path.of(filePath);
                 Files.createFile(fP);
 
@@ -195,8 +243,8 @@ public class CreateATestCaseFile extends AnAction {
 
                 }
 
-                Messages.showMessageDialog(fileName, "成功创建", Messages.getInformationIcon());
                 project.getBaseDir().refresh(false, true);
+                Messages.showMessageDialog(fileName, "成功创建", Messages.getInformationIcon());
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();

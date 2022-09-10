@@ -10,18 +10,26 @@ public class CreateTestCaseFileUI {
     private JCheckBox iosCheckBox;
 
     private JTextField fileName;
+    private JTextField packagePath;
 
 
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
+    public void setPackagePath(String newValue) {
+        packagePath.setText(newValue);
+    }
     public String getFileName() {
         return fileName.getText();
     }
 
     public void setFileName(String newValue) {
         fileName.setText(newValue);
+    }
+
+    public JTextField getPackagePath() {
+        return packagePath;
     }
 
 
