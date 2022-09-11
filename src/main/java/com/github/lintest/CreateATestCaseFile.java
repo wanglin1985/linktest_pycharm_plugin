@@ -48,15 +48,9 @@ public class CreateATestCaseFile extends AnAction {
 
         } else {
             String fileName = selectedPackagePath.split(":")[1];
-            System.out.println(fileName);
-            System.out.println(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath());
             fullPath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().substring(0, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().length() - fileName.length());
-            System.out.println(fullPath);
-
             selectedPackagePath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().split(project.getName())[1];
-            System.out.println(selectedPackagePath);
             selectedPackagePath = selectedPackagePath.substring(0, selectedPackagePath.length() - fileName.length());
-            System.out.println(selectedPackagePath);
 
             if (System.getProperty("os.name").startsWith("Windows")) {
                 selectedPackagePath = selectedPackagePath.replaceAll("\\\\", ".");
@@ -64,21 +58,17 @@ public class CreateATestCaseFile extends AnAction {
                 selectedPackagePath = selectedPackagePath.replaceAll(File.separator, ".");
             }
 
-            System.out.println(selectedPackagePath);
-
             if (selectedPackagePath.startsWith(".")) {
                 selectedPackagePath = selectedPackagePath.replaceFirst(".", "");
-                System.out.println(selectedPackagePath);
             }
 
             if (selectedPackagePath.endsWith(".")) {
                 selectedPackagePath = selectedPackagePath.substring(0, selectedPackagePath.length() - 1);
-                System.out.println(selectedPackagePath);
             }
 
         }
 
-        if ((!selectedPackagePath.startsWith("tests.") && !"tests".equals(selectedPackagePath)) ){
+        if ((!selectedPackagePath.startsWith("tests.") && !"tests".equals(selectedPackagePath))) {
             Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
                     "不合法的包路径2:", Messages.getErrorIcon());
             return;
@@ -90,56 +80,33 @@ public class CreateATestCaseFile extends AnAction {
         dialogBuilder.setCenterPanel(createTestCaseFileUI.getRootPanel());
         dialogBuilder.setTitle("Add CaseFile in Package");
         createTestCaseFileUI.setPackagePath(selectedPackagePath.replaceAll(File.separator, "."));
-//        createTestCaseFileUI.setPackagePath(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath().split(project.getBasePath() + File.separator)[1].replaceAll(File.separator, "."));
         createTestCaseFileUI.getPackagePath().setEditable(false);
         String finalFullPath = fullPath;
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
             String fileName = createTestCaseFileUI.getFileName();
-            fileName = fileName.trim().replaceAll(" +", "").replaceAll("\\.", ".");
-            String pyFileRegx = "^[_a-zA-Z]+$";
+            fileName = fileName.trim();
+
+            if (fileName.contains(".")) {
+                if (!fileName.endsWith(".py")) {
+                    Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+                    return;
+                }
+
+                fileName = fileName.substring(0, fileName.length() - 3);
+                System.out.println(fileName);
+
+            }
+
+            String pyFileRegx = "^[a-zA-Z]+[_a-zA-Z0-9]*$";
             Pattern pattern = Pattern.compile(pyFileRegx);
-            System.out.println(pattern.matcher(fileName).find());
 
             if (!pattern.matcher(fileName).find()) {
-                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "文件名不合法", Messages.getErrorIcon());
+                Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
                 return;
             }
 
-            if (fileName.length() == 0) {
-                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "文件名不能为空", Messages.getErrorIcon());
-                return;
-            }
-
-            if (fileName.startsWith(".")) {
-                Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
-                return;
-            }
-            if (fileName.contains(".")) {
-                int count = 0;
-                String[] fileNameCharList = new String[fileName.length()];
-                for (int i = 0; i < fileName.length(); i++) {
-                    fileNameCharList[i] = String.valueOf(fileName.toCharArray()[i]);
-                }
-                for (int i = 0; i < fileNameCharList.length; i++) {
-                    System.out.println(fileNameCharList[i]);
-                    if (".".equals(fileNameCharList[i])) {
-                        count += 1;
-                    }
-                }
-
-                if (count > 1) {
-                    Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
-                    return;
-                } else if (count == 1) {
-                    if (!fileName.endsWith(".py")) {
-                        Messages.showMessageDialog("只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
-                        return;
-                    }
-                }
-            } else {
-                fileName += ".py";
-            }
+            fileName += ".py";
 
             File f = new File(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName);
             if (f.exists()) {
@@ -170,9 +137,7 @@ public class CreateATestCaseFile extends AnAction {
             }
 
             try {
-//                String filePath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName;
                 String filePath = finalFullPath + File.separator + fileName;
-                System.out.println(filePath);
                 Path fP = Path.of(filePath);
                 Files.createFile(fP);
 
@@ -243,8 +208,8 @@ public class CreateATestCaseFile extends AnAction {
 
                 }
 
-                project.getBaseDir().refresh(false, true);
                 Messages.showMessageDialog(fileName, "成功创建", Messages.getInformationIcon());
+                project.getBaseDir().refresh(false, true);
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
