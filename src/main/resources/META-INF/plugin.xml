@@ -17,7 +17,6 @@
     <idea-version since-build="200"/>
 
 
-
     <depends>com.intellij.modules.python</depends>
     <depends>com.intellij.modules.pycharm</depends>
     <depends>com.intellij.modules.pycharm.community</depends>

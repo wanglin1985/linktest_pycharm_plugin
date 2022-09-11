@@ -26,10 +26,7 @@ public class CreateATestCaseFile extends AnAction {
         Project project = e.getData(CommonDataKeys.PROJECT);
         Navigatable navigatable = e.getData(CommonDataKeys.NAVIGATABLE);
         String selectedPackagePath = navigatable.toString();
-
-        System.out.println(selectedPackagePath);
         String fullPath = "";
-
 
         if (selectedPackagePath.startsWith("PsiDirectory:")) {
             selectedPackagePath = selectedPackagePath.split(project.getName())[1];
@@ -65,12 +62,11 @@ public class CreateATestCaseFile extends AnAction {
             if (selectedPackagePath.endsWith(".")) {
                 selectedPackagePath = selectedPackagePath.substring(0, selectedPackagePath.length() - 1);
             }
-
         }
 
         if ((!selectedPackagePath.startsWith("tests.") && !"tests".equals(selectedPackagePath))) {
             Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
-                    "不合法的包路径2:", Messages.getErrorIcon());
+                    "不合法的包路径:", Messages.getErrorIcon());
             return;
         }
 
@@ -94,8 +90,6 @@ public class CreateATestCaseFile extends AnAction {
                 }
 
                 fileName = fileName.substring(0, fileName.length() - 3);
-                System.out.println(fileName);
-
             }
 
             String pyFileRegx = "^[a-zA-Z]+[_a-zA-Z0-9]*$";
@@ -205,7 +199,6 @@ public class CreateATestCaseFile extends AnAction {
                     if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
                         Files.writeString(fP, "        self.browser.get(\"https://www.bing.com\")" + System.lineSeparator(), StandardOpenOption.APPEND);
                     }
-
                 }
 
                 Messages.showMessageDialog(fileName, "成功创建", Messages.getInformationIcon());
