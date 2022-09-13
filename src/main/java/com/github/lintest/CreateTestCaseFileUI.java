@@ -11,15 +11,26 @@ public class CreateTestCaseFileUI {
 
     private JTextField fileName;
     private JTextField packagePath;
+    private JRadioButton yesRadioButton;
+    private JRadioButton noRadioButton;
 
 
     public JPanel getRootPanel() {
         return rootPanel;
     }
 
+    public JRadioButton getYesRadioButton() {
+        return yesRadioButton;
+    }
+
+    public JRadioButton getNoRadioButton() {
+        return noRadioButton;
+    }
+
     public void setPackagePath(String newValue) {
         packagePath.setText(newValue);
     }
+
     public String getFileName() {
         return fileName.getText();
     }
