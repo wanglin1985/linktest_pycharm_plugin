@@ -75,7 +75,12 @@ public class CreateATestCaseFile extends AnAction {
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(createTestCaseFileUI.getRootPanel());
         dialogBuilder.setTitle("Add a testcase file to the package");
-        createTestCaseFileUI.setPackagePath(selectedPackagePath.replaceAll(File.separator, "."));
+
+        if (System.getProperty("os.name").startsWith("Windows")) {
+            createTestCaseFileUI.setPackagePath(selectedPackagePath.replaceAll("\\\\", "."));
+        } else {
+            createTestCaseFileUI.setPackagePath(selectedPackagePath.replaceAll(File.separator, "."));
+        }
         createTestCaseFileUI.getPackagePath().setEditable(false);
         String finalFullPath = fullPath;
         dialogBuilder.setOkOperation(() -> {
@@ -104,7 +109,13 @@ public class CreateATestCaseFile extends AnAction {
 
             fileName += ".py";
 
-            File f = new File(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName);
+            File f;
+            if (System.getProperty("os.name").startsWith("Windows")) {
+                f = new File(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + "\\" + fileName);
+            } else {
+                f = new File(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName);
+            }
+
             if (f.exists()) {
                 Messages.showMessageDialog("文件: " + fileName + " 已存在", "错误", Messages.getErrorIcon());
                 return;
@@ -133,141 +144,115 @@ public class CreateATestCaseFile extends AnAction {
             }
 
             try {
-                String filePath = finalFullPath + File.separator + fileName;
+                String filePath = "";
+
+                if (System.getProperty("os.name").startsWith("Windows")) {
+                    filePath =  finalFullPath + "\\" + fileName;
+                } else {
+                    filePath =  finalFullPath + File.separator + fileName;
+                }
+
                 Path fP = Path.of(filePath);
                 Files.createFile(fP);
 
-                if (System.getProperty("os.name").startsWith("Windows")) {
-                    if (createTestCaseFileUI.getApiCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.api_testcase import APITestCase" + "\n", StandardOpenOption.APPEND);
-                    }
-                    if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.ui_testcase import UITestCase" + "\n", StandardOpenOption.APPEND);
-                    }
-                    if (createTestCaseFileUI.getAndroidCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.android_testcase import AndroidTestCase" + "\n", StandardOpenOption.APPEND);
-                    }
-                    if (createTestCaseFileUI.getIosCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.ios_testcase import IOSTestCase" + "\n", StandardOpenOption.APPEND);
-                    }
+                if (createTestCaseFileUI.getApiCheckBox().isSelected()) {
+                    Files.writeString(fP, "from lintest.api_testcase import APITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                }
+                if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
+                    Files.writeString(fP, "from lintest.ui_testcase import UITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                }
+                if (createTestCaseFileUI.getAndroidCheckBox().isSelected()) {
+                    Files.writeString(fP, "from lintest.android_testcase import AndroidTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                }
+                if (createTestCaseFileUI.getIosCheckBox().isSelected()) {
+                    Files.writeString(fP, "from lintest.ios_testcase import IOSTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                }
 
-                    Files.writeString(fP, "\n\n", StandardOpenOption.APPEND);
-                    superClsNamesStr = superClsNamesStr.substring(0, superClsNamesStr.length() - 2);
+                Files.writeString(fP, System.lineSeparator() + System.lineSeparator(), StandardOpenOption.APPEND);
 
-                    Files.writeString(fP, "class " + fileName.split(".")[0] + "(" + superClsNamesStr + "):\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "    tag = 'regression'" + "\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "    def setup(self):" + "\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "        self.logger.info(\"setup()...\")\n\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "    def teardown(self):" + "\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "        self.logger.info(\"teardown()...\")\n\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "    def run_test(self):" + "\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "        # 输入 self. 获得框架提供的基础能力\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "        self.logger.info(\"write the business code here\")\n", StandardOpenOption.APPEND);
-                    Files.writeString(fP, "        self.requests.get(self, url=\"https://www.bing.com\")  # will auto log the request's params\n", StandardOpenOption.APPEND);
+                superClsNamesStr = superClsNamesStr.substring(0, superClsNamesStr.length() - 2);
 
-                    if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
-                        Files.writeString(fP, "        self.browser.get(\"https://www.bing.com\")\n", StandardOpenOption.APPEND);
-                    }
-                } else {
-                    if (createTestCaseFileUI.getApiCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.api_testcase import APITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
-                    }
-                    if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.ui_testcase import UITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
-                    }
-                    if (createTestCaseFileUI.getAndroidCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.android_testcase import AndroidTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
-                    }
-                    if (createTestCaseFileUI.getIosCheckBox().isSelected()) {
-                        Files.writeString(fP, "from lintest.ios_testcase import IOSTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
-                    }
+                Files.writeString(fP, "class " + fileName.split("\\.")[0] + "(" + superClsNamesStr + "):" + System.lineSeparator(), StandardOpenOption.APPEND);
 
-                    Files.writeString(fP, System.lineSeparator() + System.lineSeparator(), StandardOpenOption.APPEND);
+                String codeDemoStr = "    tag = 'regression'\n" +
+                        "\n" +
+                        "    def setup(self):\n" +
+                        "        self.logger.info(\"setup()...\")\n" +
+                        "\n" +
+                        "    def teardown(self):\n" +
+                        "        self.logger.info(\"teardown()...\")\n" +
+                        "\n" +
+                        "    def run_test(self):\n" +
+                        "        # 提示: 输入 self. 查看框架提供的基础能力\n" +
+                        "        self.logger.info(\"write the business code here\")";
 
-                    superClsNamesStr = superClsNamesStr.substring(0, superClsNamesStr.length() - 2);
+                Files.writeString(fP,codeDemoStr + System.lineSeparator(), StandardOpenOption.APPEND);
 
-                    Files.writeString(fP, "class " + fileName.split("\\.")[0] + "(" + superClsNamesStr + "):" + System.lineSeparator(), StandardOpenOption.APPEND);
 
-                    String codeDemoStr = "    tag = 'regression'\n" +
+                if (generateDemoCodeFlag) {
+                    String demoCodeStr = "\n        # ******** compare_json Demo ********\n" +
+                            "        json1 = {\n" +
+                            "            \"name\": \"test\",\n" +
+                            "            \"Group\": {\n" +
+                            "                \"name\": \"A\",\n" +
+                            "                \"No\": 1\n" +
+                            "            },\n" +
+                            "        }\n" +
+                            "        json2 = {\n" +
+                            "            \"Group\": {\n" +
+                            "                \"name\": \"A\",\n" +
+                            "                \"No\": 1\n" +
+                            "            },\n" +
+                            "            \"name\": \"test\",\n" +
+                            "        }\n" +
+                            "        self.compare_json_and_assert_equal(json1, json2)\n" +
+                            "        # self.compare_json_and_return_diff(json1, json2)\n" +
+                            "        # self.compare_json_with_strict_mode(json1, json2)\n" +
                             "\n" +
-                            "    def setup(self):\n" +
-                            "        self.logger.info(\"setup()...\")\n" +
+                            "        # ******** GET Request Demo ********\n" +
+                            "        self.requests.get('https://www.douban.com/')  # 不会 自动保存请求信息到log\n" +
+                            "        self.requests.get(self, 'https://www.douban.com/')  # 会 自动保存请求信息到log\n\n" +
+                            "        # 实际请求的URL: https://www.douban.com/search?q=HuaAn&cat=9527\n" +
+                            "        self.requests.get(self, 'https://www.douban.com/search', params={'q': 'HuaAn', 'cat': '9527'})\n" +
                             "\n" +
-                            "    def teardown(self):\n" +
-                            "        self.logger.info(\"teardown()...\")\n" +
+                            "        # ******** POST Request Demo ********\n" +
+                            "        headers = {\n" +
+                            "            \"Content-Type\": \"application/json\",\n" +
+                            "        }\n" +
+                            "        post_data = {\n" +
+                            "            \"form_email\": \"test@example.com\",\n" +
+                            "            \"form_password\": \"test123456\"\n" +
+                            "        }\n" +
                             "\n" +
-                            "    def run_test(self):\n" +
-                            "        # 提示: 输入 self. 查看框架提供的基础能力\n" +
-                            "        self.logger.info(\"write the business code here\")";
+                            "        # 第一个参数为self,则会自动log请求参数\n" +
+                            "        res1 = self.requests.post(self,\n" +
+                            "                                  \"https://accounts.douban.com/login\",\n" +
+                            "                                  data=post_data,\n" +
+                            "                                  headers=headers)\n" +
+                            "        # assert res1.status_code == 200\n" +
+                            "\n" +
+                            "        # requests 默认使用 application/x-www-form-urlencoded 对 POST 数据编码.\n" +
+                            "        # 如果要传递JSON数据, 可以直接传入json参数:\n" +
+                            "        res2 = self.requests.post(self,\n" +
+                            "                                  \"https://accounts.douban.com/login\",\n" +
+                            "                                  json=post_data,  # 内部自动序列化为JSON\n" +
+                            "                                  headers=headers)\n" +
+                            "        # assert res2.status_code == 200\n" +
+                            "\n" +
+                            "        # ******** Integrate Test-Engine Demo ********\n" +
+                            "        if hasattr(self.TestEngineCaseInput, \"userName\"):\n" +
+                            "            print(self.TestEngineCaseInput[\"userName\"])\n" +
+                            "        if hasattr(self.TestEngineCaseInput, \"password\"):\n" +
+                            "            print(self.TestEngineCaseInput[\"password\"])\n" +
+                            "        # tokenStr = login(self.TestEngineCaseInput[\"userName\"], self.TestEngineCaseInput[\"password\"])\n" +
+                            "        self.TestEngineCaseOutput[\"Token\"] = \"tokenStr...\"\n" +
+                            "\n" +
+                            "        # ******** 其它 ********\n" +
+                            "        self.pprint(post_data)\n" +
+                            "        self.sleep(1)";
 
-                    Files.writeString(fP,codeDemoStr + System.lineSeparator(), StandardOpenOption.APPEND);
+                    Files.writeString(fP, "        " + demoCodeStr + System.lineSeparator(), StandardOpenOption.APPEND);
 
-
-                    if (generateDemoCodeFlag) {
-                        String demoCodeStr = "\n        # ******** compare_json Demo ********\n" +
-                                "        json1 = {\n" +
-                                "            \"name\": \"test\",\n" +
-                                "            \"Group\": {\n" +
-                                "                \"name\": \"A\",\n" +
-                                "                \"No\": 1\n" +
-                                "            },\n" +
-                                "        }\n" +
-                                "        json2 = {\n" +
-                                "            \"Group\": {\n" +
-                                "                \"name\": \"A\",\n" +
-                                "                \"No\": 1\n" +
-                                "            },\n" +
-                                "            \"name\": \"test\",\n" +
-                                "        }\n" +
-                                "        self.compare_json_and_assert_equal(json1, json2)\n" +
-                                "        # self.compare_json_and_return_diff(json1, json2)\n" +
-                                "        # self.compare_json_with_strict_mode(json1, json2)\n" +
-                                "\n" +
-                                "        # ******** GET Request Demo ********\n" +
-                                "        self.requests.get('https://www.douban.com/')  # 不会 自动保存请求信息到log\n" +
-                                "        self.requests.get(self, 'https://www.douban.com/')  # 会 自动保存请求信息到log\n\n" +
-                                "        # 实际请求的URL: https://www.douban.com/search?q=HuaAn&cat=9527\n" +
-                                "        self.requests.get(self, 'https://www.douban.com/search', params={'q': 'HuaAn', 'cat': '9527'})\n" +
-                                "\n" +
-                                "        # ******** POST Request Demo ********\n" +
-                                "        headers = {\n" +
-                                "            \"Content-Type\": \"application/json\",\n" +
-                                "        }\n" +
-                                "        post_data = {\n" +
-                                "            \"form_email\": \"test@example.com\",\n" +
-                                "            \"form_password\": \"test123456\"\n" +
-                                "        }\n" +
-                                "\n" +
-                                "        # 第一个参数为self,则会自动log请求参数\n" +
-                                "        res1 = self.requests.post(self,\n" +
-                                "                                  \"https://accounts.douban.com/login\",\n" +
-                                "                                  data=post_data,\n" +
-                                "                                  headers=headers)\n" +
-                                "        # assert res1.status_code == 200\n" +
-                                "\n" +
-                                "        # requests 默认使用 application/x-www-form-urlencoded 对 POST 数据编码.\n" +
-                                "        # 如果要传递JSON数据, 可以直接传入json参数:\n" +
-                                "        res2 = self.requests.post(self,\n" +
-                                "                                  \"https://accounts.douban.com/login\",\n" +
-                                "                                  json=post_data,  # 内部自动序列化为JSON\n" +
-                                "                                  headers=headers)\n" +
-                                "        # assert res2.status_code == 200\n" +
-                                "\n" +
-                                "        # ******** Integrate Test-Engine Demo ********\n" +
-                                "        if hasattr(self.TestEngineCaseInput, \"userName\"):\n" +
-                                "            print(self.TestEngineCaseInput[\"userName\"])\n" +
-                                "        if hasattr(self.TestEngineCaseInput, \"password\"):\n" +
-                                "            print(self.TestEngineCaseInput[\"password\"])\n" +
-                                "        # tokenStr = login(self.TestEngineCaseInput[\"userName\"], self.TestEngineCaseInput[\"password\"])\n" +
-                                "        self.TestEngineCaseOutput[\"Token\"] = \"tokenStr...\"\n" +
-                                "\n" +
-                                "        # ******** 其它 ********\n" +
-                                "        self.pprint(post_data)\n" +
-                                "        self.sleep(1)";
-
-                        Files.writeString(fP, "        " + demoCodeStr + System.lineSeparator(), StandardOpenOption.APPEND);
-                    }
 
                     if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
                         Files.writeString(fP, "\n        # ******** Browser/ WebDriver ********" + System.lineSeparator(), StandardOpenOption.APPEND);
