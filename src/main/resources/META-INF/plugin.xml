@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -11,8 +11,20 @@
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
         <p>PyCharm Plugin for lintest Automation Framework</p>
-        <p>Convenient execution of lintest (by case/package/tag/suite)</p>
+        <p>Convenient execution of lintest (by case/package/tag/suite/case_py_file)</p>
+        <p>Convenient add & edit testcase file</p>
     ]]></description>
+
+    <change-notes>
+        <![CDATA[
+      <p>1.1.5</p>
+      <ul>
+        <li>Support for quickly creating case template files.</li>
+        <li>Support fast execution of selected pyFile/package/caseName/tag.</li>
+        <li>Support batch setting tag for cases in testSuite/caseFile.</li>
+      </ul>
+    ]]>
+    </change-notes>
 
     <idea-version since-build="200"/>
 
@@ -42,6 +54,7 @@
 
 
 
+
         <action id="com.github.lintest.RunSelected"
                 class="com.github.lintest.RunSelected"
                 icon="/icons/selectRun.svg"
@@ -55,6 +68,14 @@
                 icon="/icons/packageRun.svg"
                 text="Run Based On Package"
                 description="RunTestPackage">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.lintest.RunSelectedFile"
+                class="com.github.lintest.RunSelectedFile"
+                icon="/icons/selectRun.svg"
+                text="Run Selected File"
+                description="lintest Run Based On Selected File">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
