@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.1.5</version>
+    <version>1.1.6</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,10 @@
 
     <change-notes>
         <![CDATA[
+      <p>1.1.6</p>
+      <ul>
+        <li>Support for quickly crate case&csv template files (dataset).</li>
+      </ul>
       <p>1.1.5</p>
       <ul>
         <li>Support for quickly creating case template files.</li>
@@ -76,6 +80,17 @@
                 icon="/icons/selectRun.svg"
                 text="Run Selected File"
                 description="lintest Run Based On Selected File">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
+        </action>
+
+
+
+
+        <action id="com.github.lintest.CreateCaseFileAndCSV"
+                class="com.github.lintest.CreateCaseFileAndCSV"
+                icon="/icons/addClass.svg"
+                text="New Case and CSV Files In This Package"
+                description="CreateTestCaseAndCsvFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
