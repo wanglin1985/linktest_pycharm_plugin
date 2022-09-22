@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,10 @@
 
     <change-notes>
         <![CDATA[
+      <p>1.1.7</p>
+      <ul>
+        <li>Support for quickly add Http Request Template Code</li>
+      </ul>
       <p>1.1.6</p>
       <ul>
         <li>Support for quickly crate case&csv template files (dataset).</li>
@@ -55,6 +59,15 @@
                 description="Set Tags">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
+
+        <action id="com.github.lintest.AddHttpRequestDemoCode"
+                class="com.github.lintest.AddHttpRequestDemoCode"
+                icon="/icons/edit.svg"
+                text="Add Http Request Template Code"
+                description="Add Http Request Template Code">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
 
 
 
@@ -124,4 +137,5 @@
             <!--                          relative-to-action="com.github.lintest.RunPackage"/>-->
         </action>
     </actions>
+
 </idea-plugin>
