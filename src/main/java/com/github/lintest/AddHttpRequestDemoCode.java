@@ -11,7 +11,11 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.IconLoader;
+import com.intellij.psi.PsiDocumentManager;
+import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +25,22 @@ import java.util.ArrayList;
 
 public class AddHttpRequestDemoCode extends AnAction {
 
+//
+//    @Override
+//    public void beforeActionPerformedUpdate(@NotNull AnActionEvent e) {
+//        super.beforeActionPerformedUpdate(e);
+//
+//        Editor editor = e.getData(CommonDataKeys.EDITOR);
+//        Project project = e.getData(CommonDataKeys.PROJECT);
+//        if (editor == null || project == null) {
+//            return;
+//        }
+//        project.getBaseDir().refresh(false, true);
+//        project.getBaseDir().refresh(true, true);
+//        ((EditorImpl) editor).getVirtualFile().refresh(false, true);
+//        ((EditorImpl) editor).getVirtualFile().refresh(true, true);
+//
+//    }
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -186,12 +206,116 @@ public class AddHttpRequestDemoCode extends AnAction {
                     }
                 }
 
-
             } else {
-                Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
-                        "该文件中没有找到有效的TestCase:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
-                return;
+                String add_str = "";
+
+                if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
+                    add_str += "\n    headers = {\n" +
+                            "        \"Content-Type\": \"application/json\",\n" +
+                            "    }\n";
+                }
+
+                if (addHttpRequestDemoCodeUI.getPOSTRadioButton().isSelected()) {
+                    if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
+                        add_str += "\n    post_data = {\n" +
+                                "        \"form_email\": \"test@example.com\",\n" +
+                                "        \"form_password\": \"test123456\"\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    # 第一个参数为self, 则会自动log请求参数\n" +
+                                "    res = self.requests.post(self,\n" +
+                                "                             \"https://accounts.douban.com/login\",\n" +
+                                "                             data=post_data,\n" +
+                                "                             headers=headers)\n" +
+                                "    assert res.status_code == 200";
+                    } else {
+                        add_str += "\n    post_data = {\n" +
+                                "        \"form_email\": \"test@example.com\",\n" +
+                                "        \"form_password\": \"test123456\"\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    # 第一个参数为self,则会自动log请求参数\n" +
+                                "    res = self.requests.post(self,\n" +
+                                "                             \"https://accounts.douban.com/login\",\n" +
+                                "                             data=post_data)\n" +
+                                "    assert res.status_code == 200";
+                    }
+
+                    addSuccessInfo = "Add POST Template Code";
+                } else if (addHttpRequestDemoCodeUI.getGETRadioButton().isSelected()) {
+                    if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
+                        add_str += "    self.requests.get(self, 'https://www.douban.com', headers=headers)  # 第一个参数为self,则会自动保存请求信息到log";
+                    } else {
+                        add_str += "    self.requests.get(self, 'https://www.douban.com')  # 第一个参数为self,自动保存请求信息到log";
+                    }
+
+                    addSuccessInfo = "Add GET Template Code";
+                } else if (addHttpRequestDemoCodeUI.getDELETERadioButton().isSelected()) {
+                    if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
+                        add_str += "\n    post_data = {\n" +
+                                "        \"id\": \"test123456\",\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    # 第一个参数为self, 则会自动log请求参数\n" +
+                                "    res = self.requests.delete(self,\n" +
+                                "                               \"https://accounts.douban.com/delete\",\n" +
+                                "                               data=post_data,\n" +
+                                "                               headers=headers)\n" +
+                                "    assert res.status_code == 200";
+                    } else {
+                        add_str += "\n    post_data = {\n" +
+                                "        \"id\": \"test123456\",\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    # 第一个参数为self,则会自动log请求参数\n" +
+                                "    res = self.requests.delete(self,\n" +
+                                "                               \"https://accounts.douban.com/delete\",\n" +
+                                "                               data=post_data)\n" +
+                                "    assert res.status_code == 200";
+                    }
+
+                } else if (addHttpRequestDemoCodeUI.getPUTRadioButton().isSelected()) {
+                    if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
+                        add_str += "\n    post_data = {\n" +
+                                "        \"email\": \"test@example.com\",\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    # 第一个参数为self, 则会自动log请求参数\n" +
+                                "    res = self.requests.put(self,\n" +
+                                "                            \"https://accounts.douban.com/test\",\n" +
+                                "                            data=post_data,\n" +
+                                "                            headers=headers)\n" +
+                                "    assert res.status_code == 200";
+                    } else {
+                        add_str += "\n    post_data = {\n" +
+                                "        \"email\": \"test@example.com\",\n" +
+                                "    }\n" +
+                                "\n" +
+                                "    # 第一个参数为self,则会自动log请求参数\n" +
+                                "    res = self.requests.put(self,\n" +
+                                "                            \"https://accounts.douban.com/test\",\n" +
+                                "                            data=post_data)\n" +
+                                "    assert res.status_code == 200";
+                    }
+                }
+
+                // write the add_str to selected file
+                if (lineNum == lines.length) {
+                    newLines.add(lineNum, add_str);
+                } else {
+                    if (lines[lineNum].replaceAll(" +", "").length() > 0) {
+                        newLines.add(lineNum + 1, add_str);
+                    } else {
+                        newLines.add(lineNum, add_str);
+                    }
+                }
+
             }
+//            } else {
+//                Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
+//                        "该文件中没有找到有效的TestCase:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
+//                return;
+//            }
 
             //  write newLines to case file
             try {
@@ -211,10 +335,26 @@ public class AddHttpRequestDemoCode extends AnAction {
                 }
 
                 Messages.showMessageDialog(addSuccessInfo, "Success", Messages.getInformationIcon());
-                project.getBaseDir().refresh(false, true);
+                project.getBaseDir().refresh(true, true);
+//                project.getBaseDir().refresh(false, true);
+//
+//                ((EditorImpl) editor).getVirtualFile().refresh(false, true);
+//                ((EditorImpl) editor).getVirtualFile().refresh(true, false);
+//                ((EditorImpl) editor).getVirtualFile().refresh(true, true);
 
-                ((EditorImpl) editor).getVirtualFile().refresh(true, true);
+//                try {
+//                    Robot robot = new Robot();
+//                    robot.keyPress(KeyEvent.VK_COMMA);
+//                    robot.keyPress(KeyEvent.VK_A);
+//
+//                    robot.keyRelease(KeyEvent.VK_A);
+//                    robot.keyRelease(KeyEvent.VK_COMMA);
+//
+//                } catch (AWTException ex) {
+//                    throw new RuntimeException(ex);
+//                }
 
+//                PsiDocumentManager.getInstance(project).getCachedPsiFile(editor.getDocument()).getVirtualFile().refresh(false, true);
 
             } catch (IOException ioException) {
                 ioException.printStackTrace();
