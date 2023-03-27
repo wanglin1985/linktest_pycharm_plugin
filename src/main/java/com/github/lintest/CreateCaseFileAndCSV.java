@@ -177,9 +177,9 @@ public class CreateCaseFileAndCSV extends AnAction {
                 Path csvFP = Path.of(csvFilePath);
                 Files.createFile(csvFP);
 
-                String csvDemoStr = "id,username,password\n" +
-                        "1,name1,password1\n" +
-                        "2,name2,password2";
+                String csvDemoStr = "username,password\n" +
+                        "name1,password1\n" +
+                        "name2,password2";
 
                 Files.writeString(csvFP, csvDemoStr, StandardOpenOption.APPEND);
 

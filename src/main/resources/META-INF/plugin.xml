@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.lintest</id>
     <name>lintest</name>
-    <version>1.1.8</version>
+    <version>1.1.9</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,10 @@
 
     <change-notes>
         <![CDATA[
+      <p>1.1.9</p>
+      <ul>
+        <li>Enhance Add Http Request Template Code(base-on lintest framework)</li>
+      </ul>
       <p>1.1.8</p>
       <ul>
         <li>Enhance Add Http Request Template Code(support DataSet Mode)</li>
@@ -38,7 +42,7 @@
     ]]>
     </change-notes>
 
-    <idea-version since-build="200"/>
+    <idea-version since-build="213"/>
 
 
     <depends>com.intellij.modules.python</depends>
