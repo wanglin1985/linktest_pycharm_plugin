@@ -1,4 +1,4 @@
-package com.github.lintest;
+package com.github.linktest;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -7,7 +7,6 @@ import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.DialogBuilder;
 import com.intellij.openapi.ui.Messages;
 import org.jetbrains.plugins.terminal.TerminalView;
 
@@ -15,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class RunWithUI extends AnAction {
+public class RunSelected extends AnAction {
 
 
     @Override
@@ -66,17 +65,17 @@ public class RunWithUI extends AnAction {
             if (lineContent.startsWith("class ") &&
                     (
                             lineContent.trim().replaceAll(" +", "").endsWith("(APITestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith("(UITestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith("(IOSTestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith("(AndroidTestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith(",APITestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith(",UITestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith(",IOSTestCase):") ||
-                                    lineContent.trim().replaceAll(" +", "").endsWith(",AndroidTestCase):")
+                            lineContent.trim().replaceAll(" +", "").endsWith("(UITestCase):") ||
+                            lineContent.trim().replaceAll(" +", "").endsWith("(IOSTestCase):") ||
+                            lineContent.trim().replaceAll(" +", "").endsWith("(AndroidTestCase):") ||
+                            lineContent.trim().replaceAll(" +", "").endsWith(",APITestCase):") ||
+                            lineContent.trim().replaceAll(" +", "").endsWith(",UITestCase):") ||
+                            lineContent.trim().replaceAll(" +", "").endsWith(",IOSTestCase):") ||
+                            lineContent.trim().replaceAll(" +", "").endsWith(",AndroidTestCase):")
                     )
             ) {
 
-                // 合法的 lintest Case类定义, 此时自动提取出 ClassName
+                // 合法的 linktest Case类定义, 此时自动提取出 ClassName
                 caseId += lineContent.trim().replace("class ", "").split("\\(")[0] + ",";
 
             } else if (lineContent.replaceAll(" ", "").startsWith("tag=")) {
@@ -97,6 +96,7 @@ public class RunWithUI extends AnAction {
                 } else {
                     selectedTagName = lineContent;
                 }
+
                 selectedTagName = selectedTagName.replaceAll("'", "").
                         replace("[", "").replace("]", "").
                         replaceAll("\"", "").replaceAll(" ", "").
@@ -123,41 +123,31 @@ public class RunWithUI extends AnAction {
             i_in_selected_text_lines++;
         }
 
-
         if (caseId.length() > 0) {
             caseId = caseId.substring(0, caseId.length() - 1);
+            System.out.println(caseId);
         } else if (tagStr.length() > 0) {
             // 没有找到 合法的case 类定义， 但是找到了 合法的  tagName, 如果找到了 合法的类定义，则会 忽略 tageName
             caseId = tagStr;
+        } else {
+            if (selectedText != null) {
+                Messages.showMessageDialog(project, selectedText, "选择的内容中没有找到合法的TestCase/tag", Messages.getErrorIcon());
+            } else {
+                Messages.showMessageDialog(project, lines[curLineNumber], "光标所在行的内容中没有找到合法的TestCase/tag", Messages.getErrorIcon());
+            }
+            return;
         }
 
+        TerminalView terminalView = TerminalView.getInstance(project);
+        String command = "python3 " + project.getBasePath() + File.separator + "run.py case_id=" + caseId;
+        System.out.println(command);
 
-        TestRunWithInputs testRunWithInputs = new TestRunWithInputs();
+        try {
+            terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
+        } catch (IOException err) {
+            err.printStackTrace();
+        }
 
-        testRunWithInputs.setInputText(caseId);
-
-        DialogBuilder dialogBuilder = new DialogBuilder(project);
-        dialogBuilder.setCenterPanel(testRunWithInputs.getRootPanel());
-        dialogBuilder.setTitle("Please enter the startup parameters");
-        dialogBuilder.setOkOperation(() -> {
-            dialogBuilder.getDialogWrapper().close(0);
-
-            String inputCaseId = testRunWithInputs.getInputText();
-
-            inputCaseId = inputCaseId.trim().replaceAll(" +", ",").replaceAll(",+", ",");
-
-            TerminalView terminalView = TerminalView.getInstance(project);
-            String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " case_id=" + inputCaseId
-                    + " env=" + testRunWithInputs.getEnv() + " threads=" + testRunWithInputs.getThreadCount();
-
-            try {
-                terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
-            } catch (IOException err) {
-                err.printStackTrace();
-            }
-        });
-
-        dialogBuilder.show();
     }
 
 }

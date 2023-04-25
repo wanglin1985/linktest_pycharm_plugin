@@ -1,4 +1,4 @@
-package com.github.lintest;
+package com.github.linktest;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;

@@ -1,8 +1,8 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>lin.wang.plugin.lintest</id>
-    <name>lintest</name>
-    <version>1.1.9</version>
+    <id>lin.wang.plugin.linktest</id>
+    <name>linktest</name>
+    <version>1.2.0</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -10,8 +10,8 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-        <p>PyCharm Plugin for lintest Automation Framework</p>
-        <p>Convenient execution of lintest (by case/package/tag/suite/case_py_file)</p>
+        <p>PyCharm Plugin for linktest Automation Framework</p>
+        <p>Convenient execution of linktest (by case/package/tag/suite/case_py_file)</p>
         <p>Convenient add & edit testcase file</p>
     ]]></description>
 
@@ -19,7 +19,7 @@
         <![CDATA[
       <p>1.1.9</p>
       <ul>
-        <li>Enhance Add Http Request Template Code(base-on lintest framework)</li>
+        <li>Enhance Add Http Request Template Code(base-on linktest framework)</li>
       </ul>
       <p>1.1.8</p>
       <ul>
@@ -53,23 +53,23 @@
 <!--    <extensions defaultExtensionNs="com.intellij"></extensions>-->
 
     <actions>
-        <action id="com.github.lintest.RunSuite"
-                class="com.github.lintest.RunSuite"
+        <action id="com.github.linktest.RunSuite"
+                class="com.github.linktest.RunSuite"
                 icon="/icons/runSuite.svg"
                 text="Run Based On TestSuite"
                 description="RunTestTestSuite">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
-        <action id="com.github.lintest.SetTagsByFile"
-                class="com.github.lintest.SetTagsByFile"
+        <action id="com.github.linktest.SetTagsByFile"
+                class="com.github.linktest.SetTagsByFile"
                 icon="/icons/edit.svg"
                 text="Set Tags In Batches"
                 description="Set Tags">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.github.lintest.AddHttpRequestDemoCode"
-                class="com.github.lintest.AddHttpRequestDemoCode"
+        <action id="com.github.linktest.AddHttpRequestDemoCode"
+                class="com.github.linktest.AddHttpRequestDemoCode"
                 icon="/icons/edit.svg"
                 text="Add Http Request Template Code"
                 description="Add Http Request Template Code">
@@ -80,43 +80,43 @@
 
 
 
-        <action id="com.github.lintest.RunSelected"
-                class="com.github.lintest.RunSelected"
+        <action id="com.github.linktest.RunSelected"
+                class="com.github.linktest.RunSelected"
                 icon="/icons/selectRun.svg"
                 text="Run Based On Selection"
-                description="lintest Run Based On Selection">
+                description="linktest Run Based On Selection">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.github.lintest.RunPackage"
-                class="com.github.lintest.RunPackage"
+        <action id="com.github.linktest.RunPackage"
+                class="com.github.linktest.RunPackage"
                 icon="/icons/packageRun.svg"
                 text="Run Based On Package"
                 description="RunTestPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.github.lintest.RunSelectedFile"
-                class="com.github.lintest.RunSelectedFile"
+        <action id="com.github.linktest.RunSelectedFile"
+                class="com.github.linktest.RunSelectedFile"
                 icon="/icons/selectRun.svg"
                 text="Run Selected File"
-                description="lintest Run Based On Selected File">
+                description="linktest Run Based On Selected File">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
 
 
 
-        <action id="com.github.lintest.CreateCaseFileAndCSV"
-                class="com.github.lintest.CreateCaseFileAndCSV"
+        <action id="com.github.linktest.CreateCaseFileAndCSV"
+                class="com.github.linktest.CreateCaseFileAndCSV"
                 icon="/icons/addClass.svg"
                 text="New Case and CSV Files In This Package"
                 description="CreateTestCaseAndCsvFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
-        <action id="com.github.lintest.CreateATestCaseFile"
-                class="com.github.lintest.CreateATestCaseFile"
+        <action id="com.github.linktest.CreateATestCaseFile"
+                class="com.github.linktest.CreateATestCaseFile"
                 icon="/icons/addClass.svg"
                 text="New TestCase File In This Package"
                 description="CreateATestCaseFileInThisPackage">
@@ -124,25 +124,25 @@
         </action>
 
 
-        <action id="com.github.lintest.RunPackageWithInput"
-                class="com.github.lintest.RunPackageWithInput"
+        <action id="com.github.linktest.RunPackageWithInput"
+                class="com.github.linktest.RunPackageWithInput"
                 icon="/icons/executeSelection_dark.svg"
                 text="Run Based On Package With Input"
                 description="RunPackageWithInput">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
-                          relative-to-action="com.github.lintest.RunPackage"/>
+                          relative-to-action="com.github.linktest.RunPackage"/>
         </action>
 
 
-        <action id="com.github.lintest.RunWithUI"
-                class="com.github.lintest.RunWithUI"
+        <action id="com.github.linktest.RunWithUI"
+                class="com.github.linktest.RunWithUI"
                 icon="/icons/executeSelection_dark.svg"
                 text="Run Based On Input"
                 description="RunTestWithUI">
             <add-to-group group-id="EditorPopupMenu" anchor="after"
-                          relative-to-action="com.github.lintest.RunSelected"/>
+                          relative-to-action="com.github.linktest.RunSelected"/>
             <!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"-->
-            <!--                          relative-to-action="com.github.lintest.RunPackage"/>-->
+            <!--                          relative-to-action="com.github.linktest.RunPackage"/>-->
         </action>
     </actions>
 

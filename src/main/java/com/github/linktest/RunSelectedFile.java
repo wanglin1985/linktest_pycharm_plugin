@@ -1,4 +1,4 @@
-package com.github.lintest;
+package com.github.linktest;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -59,7 +59,7 @@ public class RunSelectedFile extends AnAction {
                         )
                 ) {
 
-                    // 合法的 lintest Case类定义, 此时自动提取出 ClassName 并追加到 caseNameListInSuitFile
+                    // 合法的 linktest Case类定义, 此时自动提取出 ClassName 并追加到 caseNameListInSuitFile
                     lineContent = lineContent.trim().replace("class ", "").split("\\(")[0].replaceAll(" +", "");
                     caseNameListInSuitFile += lineContent + " ";
                 }

@@ -1,4 +1,4 @@
-package com.github.lintest;
+package com.github.linktest;
 
 //import com.intellij.execution.dashboard.actions.DebugAction;
 import com.intellij.openapi.actionSystem.AnAction;

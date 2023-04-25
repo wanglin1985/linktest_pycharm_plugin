@@ -1,4 +1,4 @@
-package com.github.lintest;
+package com.github.linktest;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package com.github.lintest;
+package com.github.linktest;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
@@ -156,16 +156,16 @@ public class CreateATestCaseFile extends AnAction {
                 Files.createFile(fP);
 
                 if (createTestCaseFileUI.getApiCheckBox().isSelected()) {
-                    Files.writeString(fP, "from lintest.api_testcase import APITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                    Files.writeString(fP, "from linktest.api_testcase import APITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
                 }
                 if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
-                    Files.writeString(fP, "from lintest.ui_testcase import UITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                    Files.writeString(fP, "from linktest.ui_testcase import UITestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
                 }
                 if (createTestCaseFileUI.getAndroidCheckBox().isSelected()) {
-                    Files.writeString(fP, "from lintest.android_testcase import AndroidTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                    Files.writeString(fP, "from linktest.android_testcase import AndroidTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
                 }
                 if (createTestCaseFileUI.getIosCheckBox().isSelected()) {
-                    Files.writeString(fP, "from lintest.ios_testcase import IOSTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
+                    Files.writeString(fP, "from linktest.ios_testcase import IOSTestCase" + System.lineSeparator(), StandardOpenOption.APPEND);
                 }
 
                 Files.writeString(fP, System.lineSeparator() + System.lineSeparator(), StandardOpenOption.APPEND);
