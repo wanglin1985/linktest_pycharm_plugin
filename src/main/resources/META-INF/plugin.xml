@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.linktest</id>
     <name>linktest</name>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,14 @@
 
     <change-notes>
         <![CDATA[
+      <p>1.2.1</p>
+      <ul>
+        <li>update org.jetbrains.intellij version to 1.11.0</li>
+      </ul>
+      <p>1.2.0</p>
+      <ul>
+        <li>rename lintest to linktest</li>
+      </ul>
       <p>1.1.9</p>
       <ul>
         <li>Enhance Add Http Request Template Code(base-on linktest framework)</li>
