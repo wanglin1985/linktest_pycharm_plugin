@@ -19,7 +19,6 @@ import java.util.regex.Pattern;
 
 public class CreateATestCaseFile extends AnAction {
 
-
     @Override
     public void actionPerformed(AnActionEvent e) {
         // 获取到editor和project
@@ -92,18 +91,18 @@ public class CreateATestCaseFile extends AnAction {
 
             if (fileName.contains(".")) {
                 if (!fileName.endsWith(".py")) {
-                    Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+                    Messages.showMessageDialog("1. File names must consist only of lowercase letters, digits, and underscores, and must begin with a letter. \n文件名应仅由小写字母、数字和下划线组成，并需以字母开头。 \n\t2.The file extension must be .py or absent. \n\t文件扩展名仅限于 .py 或无扩展名。\n", "Invalid file Name - 无效的文件名", Messages.getErrorIcon());
                     return;
                 }
 
                 fileName = fileName.substring(0, fileName.length() - 3);
             }
 
-            String pyFileRegx = "^[a-zA-Z]+[_a-zA-Z0-9]*$";
+            String pyFileRegx = "^[a-z]+[_a-z0-9]*$";
             Pattern pattern = Pattern.compile(pyFileRegx);
 
             if (!pattern.matcher(fileName).find()) {
-                Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+                Messages.showMessageDialog("1. File names must consist only of lowercase letters, digits, and underscores, and must begin with a letter. \n文件名应仅由小写字母、数字和下划线组成，并需以字母开头。\n\t 2.The file extension must be .py or absent. \n\t文件扩展名仅限于 .py 或无扩展名。\n", "Invalid file Name - 无效的文件名", Messages.getErrorIcon());
                 return;
             }
 
@@ -117,7 +116,7 @@ public class CreateATestCaseFile extends AnAction {
             }
 
             if (f.exists()) {
-                Messages.showMessageDialog("文件: " + fileName + " 已存在", "错误", Messages.getErrorIcon());
+                Messages.showMessageDialog("File: " + fileName + " already exists in the current directory.", "Error", Messages.getErrorIcon());
                 return;
             }
 
@@ -183,14 +182,48 @@ public class CreateATestCaseFile extends AnAction {
                         "        self.logger.info(\"teardown()...\")\n" +
                         "\n" +
                         "    def run_test(self):\n" +
-                        "        # 提示: 输入 self. 查看框架提供的基础能力\n" +
-                        "        self.logger.info(\"write the business code here\")";
+                        "        # Tips:\n" +
+                        "        # 1. Type self. to explore the foundational capabilities provided by the framework.\n" +
+                        "        # 2. The framework will automatically capture and log all request information for both HTTP and UI interactions.\n" +
+                        "        self.logger.info(\"Insert business logic here...\")";
 
                 Files.writeString(fP,codeDemoStr + System.lineSeparator(), StandardOpenOption.APPEND);
 
 
                 if (generateDemoCodeFlag) {
-                    String demoCodeStr = "\n        # ******** compare_json Demo ********\n" +
+                    if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
+                        Files.writeString(fP, "\n        # ******** UI Test Case Example ********" + System.lineSeparator(), StandardOpenOption.APPEND);
+                        Files.writeString(fP, "        self.browser.get(\"https://www.bing.com\")" + System.lineSeparator(), StandardOpenOption.APPEND);
+                        Files.writeString(fP, "        self.browser.find_element(\"xpath\", '//*[@id=\"sb_form_q\"]').click()" + System.lineSeparator(), StandardOpenOption.APPEND);
+                        Files.writeString(fP, "        self.browser.find_element(\"xpath\", '//*[@id=\"sb_form_q\"]').send_keys(\"linktest PyCharm Plugin\")\n" + System.lineSeparator(), StandardOpenOption.APPEND);
+                        Files.writeString(fP, "        from selenium.webdriver import Keys" + System.lineSeparator(), StandardOpenOption.APPEND);
+                        Files.writeString(fP, "        self.browser.find_element(\"xpath\", '//*[@id=\"sb_form_q\"]').send_keys(Keys.ENTER)" + System.lineSeparator(), StandardOpenOption.APPEND);
+                    }
+
+                    String demoCodeStr = "\n" +
+                            "        # ******** HTTP GET Request Example ********\n" +
+                            "        self.requests.get('https://jsonplaceholder.typicode.com/posts/1') \n" +
+                            "        # ******** HTTP GET Request Example with parameters ********\n" +
+                            "        params = {\n" +
+                            "            'userId': 1\n" +
+                            "        }\n" +
+                            "        response = self.requests.get(\"https://jsonplaceholder.typicode.com/posts\", params=params)\n" +
+                            "        self.assert_equals(response.status_code, 200)\n" +
+                            "\n" +
+                            "        # ******** HTTP POST Request Example ********\n" +
+                            "        headers = {\n" +
+                            "            \"Content-Type\": \"application/json\",\n" +
+                            "        }\n" +
+                            "        post_data = {\n" +
+                            "            \"title\": \"Demo HTTP POST Request\",\n" +
+                            "            \"body\": \"This is a demonstration of an HTTP POST request payload.\"\n" +
+                            "        }\n" +
+                            "\n" +
+                            "        res = self.requests.post(\"https://jsonplaceholder.typicode.com/posts\",\n" +
+                            "                                 json=post_data,\n" +
+                            "                                 headers=headers)\n" +
+                            "        self.assert_equals(res.status_code, 201)\n" +
+                            "\n        # ******** JSON Comparison Example ********\n" +
                             "        json1 = {\n" +
                             "            \"name\": \"test\",\n" +
                             "            \"Group\": {\n" +
@@ -209,58 +242,21 @@ public class CreateATestCaseFile extends AnAction {
                             "        # self.compare_json_and_return_diff(json1, json2)\n" +
                             "        # self.compare_json_with_strict_mode(json1, json2)\n" +
                             "\n" +
-                            "        # ******** GET Request Demo ********\n" +
-                            "        self.requests.get('https://www.douban.com/')  # 不会 自动保存请求信息到log\n" +
-                            "        self.requests.get(self, 'https://www.douban.com/')  # 会 自动保存请求信息到log\n\n" +
-                            "        # 实际请求的URL: https://www.douban.com/search?q=HuaAn&cat=9527\n" +
-                            "        self.requests.get(self, 'https://www.douban.com/search', params={'q': 'HuaAn', 'cat': '9527'})\n" +
-                            "\n" +
-                            "        # ******** POST Request Demo ********\n" +
-                            "        headers = {\n" +
-                            "            \"Content-Type\": \"application/json\",\n" +
-                            "        }\n" +
-                            "        post_data = {\n" +
-                            "            \"form_email\": \"test@example.com\",\n" +
-                            "            \"form_password\": \"test123456\"\n" +
-                            "        }\n" +
-                            "\n" +
-                            "        # 第一个参数为self,则会自动log请求参数\n" +
-                            "        res1 = self.requests.post(self,\n" +
-                            "                                  \"https://accounts.douban.com/login\",\n" +
-                            "                                  data=post_data,\n" +
-                            "                                  headers=headers)\n" +
-                            "        # assert res1.status_code == 200\n" +
-                            "\n" +
-                            "        # requests 默认使用 application/x-www-form-urlencoded 对 POST 数据编码.\n" +
-                            "        # 如果要传递JSON数据, 可以直接传入json参数:\n" +
-                            "        res2 = self.requests.post(self,\n" +
-                            "                                  \"https://accounts.douban.com/login\",\n" +
-                            "                                  json=post_data,  # 内部自动序列化为JSON\n" +
-                            "                                  headers=headers)\n" +
-                            "        # assert res2.status_code == 200\n" +
-                            "\n" +
-                            "        # ******** Integrate Test-Engine Demo ********\n" +
+                            "        # ******** Integrate Test-Engine Example ********\n" +
                             "        if hasattr(self.TestEngineCaseInput, \"userName\"):\n" +
                             "            print(self.TestEngineCaseInput[\"userName\"])\n" +
                             "        if hasattr(self.TestEngineCaseInput, \"password\"):\n" +
                             "            print(self.TestEngineCaseInput[\"password\"])\n" +
-                            "        # tokenStr = login(self.TestEngineCaseInput[\"userName\"], self.TestEngineCaseInput[\"password\"])\n" +
                             "        self.TestEngineCaseOutput[\"Token\"] = \"tokenStr...\"\n" +
                             "\n" +
-                            "        # ******** 其它 ********\n" +
+                            "        # ******** other ********\n" +
                             "        self.pprint(post_data)\n" +
                             "        self.sleep(1)";
 
                     Files.writeString(fP, "        " + demoCodeStr + System.lineSeparator(), StandardOpenOption.APPEND);
-
-
-                    if (createTestCaseFileUI.getUiCheckBox().isSelected()) {
-                        Files.writeString(fP, "\n        # ******** Browser/ WebDriver ********" + System.lineSeparator(), StandardOpenOption.APPEND);
-                        Files.writeString(fP, "        self.browser.get(\"https://www.bing.com\")" + System.lineSeparator(), StandardOpenOption.APPEND);
-                    }
                 }
 
-                Messages.showMessageDialog(fileName, "成功创建", Messages.getInformationIcon());
+                Messages.showMessageDialog(fileName, "Creation successful", Messages.getInformationIcon());
                 project.getBaseDir().refresh(false, true);
 
             } catch (IOException ioException) {

@@ -35,7 +35,7 @@ public class AddHttpRequestDemoCode extends AnAction {
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(addHttpRequestDemoCodeUI.getRootPanel());
-        dialogBuilder.setTitle("请选择");
+        dialogBuilder.setTitle("Add Http Request Template Code");
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
 
@@ -90,78 +90,65 @@ public class AddHttpRequestDemoCode extends AnAction {
                 if (addHttpRequestDemoCodeUI.getPOSTRadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
                         add_str += "\n        post_data = {\n" +
-                                "            \"form_email\": \"test@example.com\",\n" +
-                                "            \"form_password\": \"test123456\"\n" +
+                                "            \"key\": \"<value>\",\n" +
                                 "        }\n" +
                                 "\n" +
-                                "        # 会自动log请求参数\n" +
-                                "        res = self.requests.post(\"https://accounts.douban.com/login\",\n" +
-                                "                                 data=post_data,\n" +
-                                "                                 headers=headers)\n" +
-                                "        assert res.status_code == 200";
+                                "        self.requests.post(\"<your-api-endpoint>\",\n" +
+                                "                           data=post_data,\n" +
+                                "                           headers=headers)\n";
                     } else {
                         add_str += "\n        post_data = {\n" +
-                                "            \"form_email\": \"test@example.com\",\n" +
-                                "            \"form_password\": \"test123456\"\n" +
+                                "            \"key\": \"<value>\",\n" +
                                 "        }\n" +
                                 "\n" +
                                 "        # 会自动log请求参数\n" +
-                                "        res = self.requests.post(\"https://accounts.douban.com/login\",\n" +
-                                "                                 data=post_data)\n" +
-                                "        assert res.status_code == 200";
+                                "        self.requests.post(\"<your-api-endpoint>\",\n" +
+                                "                           data=post_data)\n";
                     }
 
                     addSuccessInfo = "Add POST Template Code";
                 } else if (addHttpRequestDemoCodeUI.getGETRadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
-                        add_str += "        self.requests.get('https://www.douban.com', headers=headers)  # 会自动保存请求信息到log";
+                        add_str += "        self.requests.get('<your-api-endpoint>', headers=headers)";
                     } else {
-                        add_str += "        self.requests.get('https://www.douban.com')  # 自动保存请求信息到log";
+                        add_str += "        self.requests.get('<your-api-endpoint>')";
                     }
 
                     addSuccessInfo = "Add GET Template Code";
                 } else if (addHttpRequestDemoCodeUI.getDELETERadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
                         add_str += "\n        post_data = {\n" +
-                                "            \"id\": \"test123456\",\n" +
+                                "            \"key\": \"<value>\",\n" +
                                 "        }\n" +
                                 "\n" +
-                                "        # 会自动log请求参数\n" +
-                                "        res = self.requests.delete(\"https://accounts.douban.com/delete\",\n" +
-                                "                                   data=post_data,\n" +
-                                "                                   headers=headers)\n" +
-                                "        assert res.status_code == 200";
+                                "        self.requests.delete(\"<your-api-endpoint>\",\n" +
+                                "                             data=post_data,\n" +
+                                "                             headers=headers)\n";
                     } else {
                         add_str += "\n        post_data = {\n" +
-                                "            \"id\": \"test123456\",\n" +
+                                "            \"key\": \"<value>\",\n" +
                                 "        }\n" +
                                 "\n" +
-                                "        # 会自动log请求参数\n" +
-                                "        res = self.requests.delete(\"https://accounts.douban.com/delete\",\n" +
-                                "                                   data=post_data)\n" +
-                                "        assert res.status_code == 200";
+                                "        self.requests.delete(\"<your-api-endpoint>\",\n" +
+                                "                             data=post_data)\n";
                     }
                     addSuccessInfo = "Add Delete Template Code";
                 } else if (addHttpRequestDemoCodeUI.getPUTRadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
                         add_str += "\n        post_data = {\n" +
-                                "            \"email\": \"test@example.com\",\n" +
+                                "            \"key\": \"<value>\",\n" +
                                 "        }\n" +
                                 "\n" +
-                                "        # 会自动log请求参数\n" +
-                                "        res = self.requests.put(\"https://accounts.douban.com/test\",\n" +
-                                "                                data=post_data,\n" +
-                                "                                headers=headers)\n" +
-                                "        assert res.status_code == 200";
+                                "        self.requests.put(\"<your-api-endpoint>\",\n" +
+                                "                          data=post_data,\n" +
+                                "                          headers=headers)\n";
                     } else {
                         add_str += "\n        post_data = {\n" +
-                                "            \"email\": \"test@example.com\",\n" +
+                                "            \"key\": \"<value>\",\n" +
                                 "        }\n" +
                                 "\n" +
-                                "        # 会自动log请求参数\n" +
-                                "        res = self.requests.put(\"https://accounts.douban.com/test\",\n" +
-                                "                                data=post_data)\n" +
-                                "        assert res.status_code == 200";
+                                "        self.requests.put(\"<your-api-endpoint>\",\n" +
+                                "                          data=post_data)\n";
                     }
                     addSuccessInfo = "Add Put Template Code";
                 }
@@ -189,78 +176,56 @@ public class AddHttpRequestDemoCode extends AnAction {
                 if (addHttpRequestDemoCodeUI.getPOSTRadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
                         add_str += "\n    post_data = {\n" +
-                                "        \"form_email\": \"test@example.com\",\n" +
-                                "        \"form_password\": \"test123456\"\n" +
+                                "        \"key\": \"<value>\",\n" +
                                 "    }\n" +
                                 "\n" +
-                                "    # 会自动log请求参数\n" +
-                                "    res = self.requests.post(\"https://accounts.douban.com/login\",\n" +
+                                "    self.requests.post(\"<your-api-endpoint>\",\n" +
                                 "                             data=post_data,\n" +
-                                "                             headers=headers)\n" +
-                                "    assert res.status_code == 200";
+                                "                             headers=headers)\n";
                     } else {
                         add_str += "\n    post_data = {\n" +
-                                "        \"form_email\": \"test@example.com\",\n" +
-                                "        \"form_password\": \"test123456\"\n" +
+                                "        \"key\": \"<value>\",\n" +
                                 "    }\n" +
                                 "\n" +
-                                "    # 会自动log请求参数\n" +
-                                "    res = self.requests.post(\"https://accounts.douban.com/login\",\n" +
-                                "                             data=post_data)\n" +
-                                "    assert res.status_code == 200";
+                                "    self.requests.post(\"<your-api-endpoint>\",\n" +
+                                "                             data=post_data)\n";
                     }
 
                     addSuccessInfo = "Add POST Template Code";
-                } else if (addHttpRequestDemoCodeUI.getGETRadioButton().isSelected()) {
-                    if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
-                        add_str += "    self.requests.get('https://www.douban.com', headers=headers)  # 会自动保存请求信息到log";
-                    } else {
-                        add_str += "    self.requests.get('https://www.douban.com')  # 会自动保存请求信息到log";
-                    }
-
-                    addSuccessInfo = "Add GET Template Code";
                 } else if (addHttpRequestDemoCodeUI.getDELETERadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
                         add_str += "\n    post_data = {\n" +
-                                "        \"id\": \"test123456\",\n" +
+                                "        \"key\": \"<value>\",\n" +
                                 "    }\n" +
                                 "\n" +
-                                "    # 会自动log请求参数\n" +
-                                "    res = self.requests.delete(\"https://accounts.douban.com/delete\",\n" +
+                                "    self.requests.delete(\"<your-api-endpoint>\",\n" +
                                 "                               data=post_data,\n" +
-                                "                               headers=headers)\n" +
-                                "    assert res.status_code == 200";
+                                "                               headers=headers)\n";
                     } else {
                         add_str += "\n    post_data = {\n" +
-                                "        \"id\": \"test123456\",\n" +
+                                "        \"key\": \"<value>\",\n" +
                                 "    }\n" +
                                 "\n" +
-                                "    # 会自动log请求参数\n" +
-                                "    res = self.requests.delete(\"https://accounts.douban.com/delete\",\n" +
-                                "                               data=post_data)\n" +
-                                "    assert res.status_code == 200";
+                                "    self.requests.delete(\"<your-api-endpoint>\",\n" +
+                                "                               data=post_data)\n";
                     }
                     addSuccessInfo = "Add Delete Template Code";
                 } else if (addHttpRequestDemoCodeUI.getPUTRadioButton().isSelected()) {
                     if (addHttpRequestDemoCodeUI.getYESRadioButton().isSelected()) {
                         add_str += "\n    post_data = {\n" +
-                                "        \"email\": \"test@example.com\",\n" +
+                                "        \"key\": \"<value>\",\n" +
                                 "    }\n" +
                                 "\n" +
-                                "    # 会自动log请求参数\n" +
-                                "    res = self.requests.put(\"https://accounts.douban.com/test\",\n" +
+                                "    self.requests.put(\"<your-api-endpoint>\",\n" +
                                 "                            data=post_data,\n" +
-                                "                            headers=headers)\n" +
-                                "    assert res.status_code == 200";
+                                "                            headers=headers)\n";
                     } else {
                         add_str += "\n    post_data = {\n" +
-                                "        \"email\": \"test@example.com\",\n" +
+                                "        \"key\": \"<value>\",\n" +
                                 "    }\n" +
                                 "\n" +
-                                "    # 会自动log请求参数\n" +
-                                "    res = self.requests.put(\"https://accounts.douban.com/test\",\n" +
-                                "                            data=post_data)\n" +
-                                "    assert res.status_code == 200";
+                                "    self.requests.put(\"<your-api-endpoint>\",\n" +
+                                "                            data=post_data)\n";
                     }
                     addSuccessInfo = "Add Put Template Code";
                 }

@@ -67,7 +67,6 @@ public class RunSelectedFile extends AnAction {
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
-
         if (" ".equals(caseNameListInSuitFile)) {
             Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
                     "该文件中没有找到有效的TestCase:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));

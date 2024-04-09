@@ -73,7 +73,7 @@ public class CreateCaseFileAndCSV extends AnAction {
         CreateCaseFileAndCsvUI createCaseFileAndCsvUI = new CreateCaseFileAndCsvUI();
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(createCaseFileAndCsvUI.getRootPanel());
-        dialogBuilder.setTitle("Add a testcase file to the package");
+        dialogBuilder.setTitle("Add TestCase and CSV files to this package");
 
         if (System.getProperty("os.name").startsWith("Windows")) {
             createCaseFileAndCsvUI.setPackagePath(selectedPackagePath.replaceAll("\\\\", "."));
@@ -89,18 +89,20 @@ public class CreateCaseFileAndCSV extends AnAction {
 
             if (fileName.contains(".")) {
                 if (!fileName.endsWith(".py")) {
-                    Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+//                    Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+                    Messages.showMessageDialog("1. File names must consist only of lowercase letters, digits, and underscores, and must begin with a letter. \n文件名应仅由小写字母、数字和下划线组成，并需以字母开头。 \n\t2.The file extension must be .py or absent. \n\t文件扩展名仅限于 .py 或无扩展名。\n", "Invalid file Name - 无效的文件名", Messages.getErrorIcon());
                     return;
                 }
 
                 fileName = fileName.substring(0, fileName.length() - 3);
             }
 
-            String pyFileRegx = "^[a-zA-Z]+[_a-zA-Z0-9]*$";
+            String pyFileRegx = "^[a-z]+[_a-z0-9]*$";
             Pattern pattern = Pattern.compile(pyFileRegx);
 
             if (!pattern.matcher(fileName).find()) {
-                Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+//                Messages.showMessageDialog("1. 文件名只能是 字母,数字和下划线 的组合(其中首字符只能是 字母) 2.只支持 .py后缀 或者 无后缀", "无效的文件名", Messages.getErrorIcon());
+                Messages.showMessageDialog("1. File names must consist only of lowercase letters, digits, and underscores, and must begin with a letter. \n文件名应仅由小写字母、数字和下划线组成，并需以字母开头。 \n\t2.The file extension must be .py or absent. \n\t文件扩展名仅限于 .py 或无扩展名。\n", "Invalid file Name - 无效的文件名", Messages.getErrorIcon());
                 return;
             }
 
@@ -114,7 +116,7 @@ public class CreateCaseFileAndCSV extends AnAction {
             }
 
             if (f.exists()) {
-                Messages.showMessageDialog("文件: " + fileName + ".py" + " 已存在", "错误", Messages.getErrorIcon());
+                Messages.showMessageDialog("File: " + fileName + ".py" + " already exists in the current directory.", "Error", Messages.getErrorIcon());
                 return;
             }
 
@@ -128,7 +130,7 @@ public class CreateCaseFileAndCSV extends AnAction {
             }
 
             if (csv_f.exists()) {
-                Messages.showMessageDialog("文件: " + fileName + ".csv" + " 已存在", "错误", Messages.getErrorIcon());
+                Messages.showMessageDialog("File: " + fileName + ".csv" + " already exists in the current directory.", "Error", Messages.getErrorIcon());
                 return;
             }
 
@@ -157,7 +159,7 @@ public class CreateCaseFileAndCSV extends AnAction {
 
                 Files.writeString(fP, codeDemoStr + System.lineSeparator(), StandardOpenOption.APPEND);
 
-                Messages.showMessageDialog(fileName + ".py", "成功创建", Messages.getInformationIcon());
+                Messages.showMessageDialog(fileName + ".py", "Creation successful", Messages.getInformationIcon());
                 project.getBaseDir().refresh(false, true);
 
             } catch (IOException ioException) {
@@ -183,7 +185,7 @@ public class CreateCaseFileAndCSV extends AnAction {
 
                 Files.writeString(csvFP, csvDemoStr, StandardOpenOption.APPEND);
 
-                Messages.showMessageDialog(fileName + ".csv", "成功创建", Messages.getInformationIcon());
+                Messages.showMessageDialog(fileName + ".csv", "Creation successful", Messages.getInformationIcon());
                 project.getBaseDir().refresh(false, true);
 
             } catch (IOException ioException) {

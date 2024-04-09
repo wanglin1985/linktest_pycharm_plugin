@@ -10,7 +10,7 @@ repositories {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     plugins = ['PythonCore', 'org.jetbrains.plugins.terminal']
-    version = '2021.3'
+    version = '2024.1'
     type = 'PC'
     downloadSources = false
     updateSinceUntilBuild = false

@@ -45,8 +45,11 @@
             </constraints>
             <properties>
               <model>
-                <item value="1. 空格符、中括号、单/双引号 会被忽略"/>
-                <item value="2. 多个tagName使用 逗号 间隔"/>
+                <item value="1. Spaces, brackets, and single/double quotes will be ignored.  "/>
+                <item value="  -  空格、中括号以及单/双引号将被忽略。"/>
+                <item value="2. Separate multiple tagNames with commas."/>
+                <item value="  - 使用逗号分隔多个标签名。"/>
+                <item value=""/>
                 <item value="e.g. regression,smoke,p1"/>
               </model>
             </properties>

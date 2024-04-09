@@ -35,7 +35,7 @@ public class SetTagsByFile extends AnAction {
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(setTagsUI.getRootPanel());
-        dialogBuilder.setTitle("请输入 tagName");
+        dialogBuilder.setTitle("Please enter the tag name. 请输入tagName");
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
 
@@ -51,7 +51,7 @@ public class SetTagsByFile extends AnAction {
             }
 
             if (inputTagName.length() == 0) {
-                Messages.showMessageDialog("tagName 不能为空", "tagName 不合法", Messages.getErrorIcon());
+                Messages.showMessageDialog("The tag name cannot be empty. tag不能为空", "Error", Messages.getErrorIcon());
                 return;
             }
 
@@ -259,7 +259,7 @@ public class SetTagsByFile extends AnAction {
 
             if (" ".equals(caseNameListInSuitFile)) {
                 Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
-                        "该文件中没有找到有效的TestCase:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
+                        "No valid test cases were found in the file\n 未在文件中找到有效的测试用例:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
                 return;
             }
 

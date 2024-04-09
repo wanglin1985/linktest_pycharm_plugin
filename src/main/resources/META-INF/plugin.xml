@@ -58,7 +58,7 @@
     <depends>com.intellij.modules.pycharm.community</depends>
     <depends>com.intellij.modules.python-core-capable</depends>
 
-<!--    <extensions defaultExtensionNs="com.intellij"></extensions>-->
+    <!--    <extensions defaultExtensionNs="com.intellij"></extensions>-->
 
     <actions>
         <action id="com.github.linktest.RunSuite"
@@ -84,14 +84,10 @@
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
-
-
-
-
         <action id="com.github.linktest.RunSelected"
                 class="com.github.linktest.RunSelected"
                 icon="/icons/selectRun.svg"
-                text="Run Based On Selection"
+                text="Run test cases based on selection."
                 description="linktest Run Based On Selection">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
@@ -99,7 +95,7 @@
         <action id="com.github.linktest.RunPackage"
                 class="com.github.linktest.RunPackage"
                 icon="/icons/packageRun.svg"
-                text="Run Based On Package"
+                text="Run All Test Cases in Selected Package"
                 description="RunTestPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -107,18 +103,15 @@
         <action id="com.github.linktest.RunSelectedFile"
                 class="com.github.linktest.RunSelectedFile"
                 icon="/icons/selectRun.svg"
-                text="Run Selected File"
+                text="Run all test cases in selected file"
                 description="linktest Run Based On Selected File">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
-
-
-
         <action id="com.github.linktest.CreateCaseFileAndCSV"
                 class="com.github.linktest.CreateCaseFileAndCSV"
                 icon="/icons/addClass.svg"
-                text="New Case and CSV Files In This Package"
+                text="Add TestCase and CSV files to this package"
                 description="CreateTestCaseAndCsvFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -126,31 +119,27 @@
         <action id="com.github.linktest.CreateATestCaseFile"
                 class="com.github.linktest.CreateATestCaseFile"
                 icon="/icons/addClass.svg"
-                text="New TestCase File In This Package"
+                text="Add a TestCase file to this package"
                 description="CreateATestCaseFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
 
-
         <action id="com.github.linktest.RunPackageWithInput"
                 class="com.github.linktest.RunPackageWithInput"
                 icon="/icons/executeSelection_dark.svg"
-                text="Run Based On Package With Input"
+                text="Run All Test Cases in Selected Package Based on User Input"
                 description="RunPackageWithInput">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
                           relative-to-action="com.github.linktest.RunPackage"/>
         </action>
 
-
         <action id="com.github.linktest.RunWithUI"
                 class="com.github.linktest.RunWithUI"
                 icon="/icons/executeSelection_dark.svg"
-                text="Run Based On Input"
+                text="Run selected test cases based on user input"
                 description="RunTestWithUI">
             <add-to-group group-id="EditorPopupMenu" anchor="after"
                           relative-to-action="com.github.linktest.RunSelected"/>
-            <!--            <add-to-group group-id="ProjectViewPopupMenu" anchor="after"-->
-            <!--                          relative-to-action="com.github.linktest.RunPackage"/>-->
         </action>
     </actions>
 
