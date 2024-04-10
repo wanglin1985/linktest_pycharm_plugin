@@ -171,7 +171,9 @@ public class CreateATestCaseFile extends AnAction {
 
                 superClsNamesStr = superClsNamesStr.substring(0, superClsNamesStr.length() - 2);
 
-                Files.writeString(fP, "class " + fileName.split("\\.")[0] + "(" + superClsNamesStr + "):" + System.lineSeparator(), StandardOpenOption.APPEND);
+
+
+                Files.writeString(fP, "class " + CapWordsConverter.toCapWords(fileName.split("\\.")[0], "_") + "(" + superClsNamesStr + "):" + System.lineSeparator(), StandardOpenOption.APPEND);
 
                 String codeDemoStr = "    tag = 'regression'\n" +
                         "\n" +
