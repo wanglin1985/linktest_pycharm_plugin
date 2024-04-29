@@ -204,7 +204,7 @@ public class CreateATestCaseFile extends AnAction {
 
                     String demoCodeStr = "\n" +
                             "        # ******** HTTP GET Request Example ********\n" +
-                            "        self.requests.get('https://jsonplaceholder.typicode.com/posts/1') \n" +
+                            "        self.requests.get('https://jsonplaceholder.typicode.com/posts/1') \n\n" +
                             "        # ******** HTTP GET Request Example with parameters ********\n" +
                             "        params = {\n" +
                             "            'userId': 1\n" +

@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.linktest</id>
     <name>linktest</name>
-    <version>1.2.2</version>
+    <version>1.2.3</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,14 @@
 
     <change-notes>
         <![CDATA[
+        <p>1.2.4</p>
+        <ul>
+            <li>Added the DEBUG mode for running test cases.</li>
+        </ul>
+        <p>1.2.3</p>
+        <ul>
+            <li>Add the CapWordsConverter class, designed to automatically transform user-inputted filenames into CapWords-formatted Python class names.</li>
+        </ul>
       <p>1.2.2</p>
       <ul>
         <li>Enhance the visual presentation of the plugin's user interface.</li>
@@ -72,6 +80,7 @@
                 description="RunTestTestSuite">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
+
         <action id="com.github.linktest.SetTagsByFile"
                 class="com.github.linktest.SetTagsByFile"
                 icon="/icons/edit.svg"
@@ -93,6 +102,22 @@
                 icon="/icons/selectRun.svg"
                 text="Run test cases based on selection."
                 description="linktest Run Based On Selection">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.linktest.DebugSelectedWithUI"
+                class="com.github.linktest.DebugWithUI"
+                icon="/icons/startDebugger.svg"
+                text="Debug selected test cases based on user input"
+                description="linktest Debug Based On Selection">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
+
+        <action id="com.github.linktest.DebugSelected"
+                class="com.github.linktest.DebugSelected"
+                icon="/icons/startDebugger.svg"
+                text="Debug test cases based on selection."
+                description="linktest Debug Based On Selection">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
@@ -145,6 +170,7 @@
             <add-to-group group-id="EditorPopupMenu" anchor="after"
                           relative-to-action="com.github.linktest.RunSelected"/>
         </action>
+
     </actions>
 
 </idea-plugin>
