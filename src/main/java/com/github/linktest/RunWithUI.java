@@ -137,17 +137,53 @@ public class RunWithUI extends AnAction {
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(testRunWithInputs.getRootPanel());
-        dialogBuilder.setTitle("Please enter the startup parameters");
+        dialogBuilder.setTitle("Please specify the test configuration parameters");
+
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
+
+            String reRunFlagStrForPython = "True";
+            if (testRunWithInputs.getRetryFailedYesRadioButton().isSelected()) {
+                System.out.println("Retry Failed is selected");
+                reRunFlagStrForPython = "True";
+            } else {
+                System.out.println("Retry Failed is not selected");
+                reRunFlagStrForPython = "False";
+            }
+
+            String autoScreenshotOnActionStrForPython = "False";
+            if (testRunWithInputs.getYesAutoScreenshotOnAction().isSelected()) {
+                System.out.println("Auto Screenshot on Action is selected");
+                autoScreenshotOnActionStrForPython = "True";
+            } else {
+                System.out.println("Auto Screenshot on Action is not selected");
+                autoScreenshotOnActionStrForPython = "False";
+            }
+
+            String logToFileCheckBoxForPython = "False";
+            if (testRunWithInputs.getFileCheckBox().isSelected()) {
+                logToFileCheckBoxForPython = "True";
+            } else {
+                logToFileCheckBoxForPython = "False";
+            }
+
+            String logToConsoleCheckBoxForPython = "False";
+            if (testRunWithInputs.getConsoleCheckBox().isSelected()) {
+                logToConsoleCheckBoxForPython = "True";
+            } else {
+                logToConsoleCheckBoxForPython = "False";
+            }
 
             String inputCaseId = testRunWithInputs.getInputText();
 
             inputCaseId = inputCaseId.trim().replaceAll(" +", ",").replaceAll(",+", ",");
 
             TerminalView terminalView = TerminalView.getInstance(project);
-            String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " case_id=" + inputCaseId
-                    + " env=" + testRunWithInputs.getEnv() + " threads=" + testRunWithInputs.getThreadCount();
+            String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " case_id=" +
+                    inputCaseId + " env=" + testRunWithInputs.getEnv() +
+                    " threads=" + testRunWithInputs.getThreadCount() + " rerun_flag=" + reRunFlagStrForPython +
+                    " auto_screenshot_on_action=" + autoScreenshotOnActionStrForPython +
+                    " log_to_file=" + logToFileCheckBoxForPython + " log_to_console=" + logToConsoleCheckBoxForPython;
 
             try {
                 terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);

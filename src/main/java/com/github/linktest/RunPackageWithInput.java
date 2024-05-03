@@ -1,6 +1,5 @@
 package com.github.linktest;
 
-//import com.intellij.execution.dashboard.actions.DebugAction;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
@@ -59,13 +58,45 @@ public class RunPackageWithInput extends AnAction {
         DialogBuilder dialogBuilder = new DialogBuilder(project);
 
         dialogBuilder.setCenterPanel(testRunWithInputs.getRootPanel());
-        dialogBuilder.setTitle("Please enter the startup parameters");
+        dialogBuilder.setTitle("Please specify the test configuration parameters");
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
+
+            String reRunFlagStrForPython = "True";
+            if (testRunWithInputs.getRetryFailedYesRadioButton().isSelected()) {
+                System.out.println("Retry Failed is selected");
+                reRunFlagStrForPython = "True";
+            } else {
+                reRunFlagStrForPython = "False";
+            }
+
+            String autoScreenshotOnActionStrForPython = "False";
+            if (testRunWithInputs.getYesAutoScreenshotOnAction().isSelected()) {
+                autoScreenshotOnActionStrForPython = "True";
+            } else {
+                autoScreenshotOnActionStrForPython = "False";
+            }
+
+            String logToFileCheckBoxForPython = "False";
+            if (testRunWithInputs.getFileCheckBox().isSelected()) {
+                logToFileCheckBoxForPython = "True";
+            } else {
+                logToFileCheckBoxForPython = "False";
+            }
+
+            String logToConsoleCheckBoxForPython = "False";
+            if (testRunWithInputs.getConsoleCheckBox().isSelected()) {
+                logToConsoleCheckBoxForPython = "True";
+            } else {
+                logToConsoleCheckBoxForPython = "False";
+            }
+
             TerminalView terminalView = TerminalView.getInstance(project);
             String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " " +
                     testRunWithInputs.getInputText() + " env=" + testRunWithInputs.getEnv() +
-                    " threads=" + testRunWithInputs.getThreadCount();
+                    " threads=" + testRunWithInputs.getThreadCount() + " rerun_flag=" + reRunFlagStrForPython +
+                    " auto_screenshot_on_action=" + autoScreenshotOnActionStrForPython +
+                    " log_to_file=" + logToFileCheckBoxForPython + " log_to_console=" + logToConsoleCheckBoxForPython;
             try {
                 terminalView.createLocalShellWidget(project.getBasePath(), "RunTest").executeCommand(command);
             } catch (IOException err) {

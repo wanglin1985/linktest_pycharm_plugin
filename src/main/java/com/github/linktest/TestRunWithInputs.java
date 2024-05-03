@@ -7,6 +7,16 @@ public class TestRunWithInputs {
     private JTextField environment;
     private JTextField threadCount;
     private JPanel rootPanel;
+    private JRadioButton retryFailedYesRadioButton;
+    private JRadioButton retryFailedNoRadioButton;
+    private JCheckBox fileCheckBox;
+    private JCheckBox consoleCheckBox;
+    private JLabel autoScreenshotOnAction;
+    private JRadioButton yesAutoScreenshotOnAction;
+    private JRadioButton noAutoScreenshotOnAction;
+    private JTextPane textPane1;
+    private JTextPane textPane2;
+    private JTextPane textPane3;
 
 
     public JPanel getRootPanel() {
@@ -27,5 +37,25 @@ public class TestRunWithInputs {
 
     public String getThreadCount() {
         return threadCount.getText();
+    }
+
+    public JRadioButton getRetryFailedYesRadioButton() {
+        return retryFailedYesRadioButton;
+    }
+
+    public JRadioButton getRetryFailedNoRadioButton() {
+        return retryFailedNoRadioButton;
+    }
+
+    public JCheckBox getFileCheckBox() {
+        return fileCheckBox;
+    }
+
+    public JCheckBox getConsoleCheckBox() {
+        return consoleCheckBox;
+    }
+
+    public JRadioButton getYesAutoScreenshotOnAction() {
+        return yesAutoScreenshotOnAction;
     }
 }

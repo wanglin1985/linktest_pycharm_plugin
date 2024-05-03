@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.github.linktest.TestRunWithInputs">
-  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+  <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="7" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="863" height="641"/>
+      <xy x="20" y="20" width="852" height="688"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -18,7 +18,7 @@
       </component>
       <component id="f56a4" class="javax.swing.JTextField" binding="searchText">
         <constraints>
-          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="0" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="280" height="-1"/>
           </grid>
         </constraints>
@@ -34,7 +34,7 @@
       </component>
       <component id="ae007" class="javax.swing.JTextField" binding="environment">
         <constraints>
-          <grid row="1" column="1" row-span="2" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="1" column="1" row-span="2" col-span="7" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="280" height="-1"/>
           </grid>
         </constraints>
@@ -52,7 +52,7 @@
       </component>
       <component id="f017e" class="javax.swing.JTextField" binding="threadCount">
         <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+          <grid row="3" column="1" row-span="1" col-span="7" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="280" height="-1"/>
           </grid>
         </constraints>
@@ -60,6 +60,117 @@
           <text value="1"/>
         </properties>
       </component>
+      <component id="90d09" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Retry Failed Cases:"/>
+        </properties>
+      </component>
+      <component id="d8417" class="javax.swing.JRadioButton" binding="retryFailedYesRadioButton">
+        <constraints>
+          <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Yes"/>
+        </properties>
+      </component>
+      <component id="4c12d" class="javax.swing.JLabel">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Log Destination:"/>
+        </properties>
+      </component>
+      <component id="d4fa9" class="javax.swing.JCheckBox" binding="fileCheckBox" default-binding="true">
+        <constraints>
+          <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="File"/>
+        </properties>
+      </component>
+      <component id="d0a68" class="javax.swing.JLabel" binding="autoScreenshotOnAction">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Auto Screenshot On Action:"/>
+        </properties>
+      </component>
+      <component id="6ddf5" class="javax.swing.JRadioButton" binding="yesAutoScreenshotOnAction">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="Yes"/>
+        </properties>
+      </component>
+      <component id="4082a" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
+        <constraints>
+          <grid row="4" column="6" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="20"/>
+          </grid>
+        </constraints>
+        <properties>
+          <text value=""/>
+        </properties>
+      </component>
+      <component id="f27af" class="javax.swing.JTextPane" binding="textPane2" default-binding="true">
+        <constraints>
+          <grid row="5" column="6" row-span="1" col-span="2" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="6cc6b" class="javax.swing.JTextPane" binding="textPane3" default-binding="true">
+        <constraints>
+          <grid row="6" column="7" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="20" height="20"/>
+          </grid>
+        </constraints>
+        <properties/>
+      </component>
+      <component id="da367" class="javax.swing.JRadioButton" binding="retryFailedNoRadioButton">
+        <constraints>
+          <grid row="4" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <selected value="true"/>
+          <text value="No"/>
+        </properties>
+      </component>
+      <component id="d36af" class="javax.swing.JCheckBox" binding="consoleCheckBox" default-binding="true">
+        <constraints>
+          <grid row="5" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Console"/>
+        </properties>
+      </component>
+      <component id="48d0d" class="javax.swing.JRadioButton" binding="noAutoScreenshotOnAction">
+        <constraints>
+          <grid row="6" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="No"/>
+        </properties>
+      </component>
     </children>
   </grid>
+  <buttonGroups>
+    <group name="buttonGroup1">
+      <member id="d8417"/>
+      <member id="da367"/>
+    </group>
+    <group name="buttonGroup2">
+      <member id="6ddf5"/>
+      <member id="48d0d"/>
+    </group>
+  </buttonGroups>
 </form>

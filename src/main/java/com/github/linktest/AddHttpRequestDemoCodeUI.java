@@ -27,7 +27,6 @@ public class AddHttpRequestDemoCodeUI {
         return DELETERadioButton;
     }
 
-
     public JRadioButton getPUTRadioButton() {
         return PUTRadioButton;
     }
@@ -39,6 +38,5 @@ public class AddHttpRequestDemoCodeUI {
     public JRadioButton getNORadioButton() {
         return NORadioButton;
     }
-
 
 }

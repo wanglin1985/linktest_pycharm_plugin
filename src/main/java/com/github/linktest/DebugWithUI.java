@@ -144,9 +144,41 @@ public class DebugWithUI extends AnAction {
 
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(testRunWithInputs.getRootPanel());
-        dialogBuilder.setTitle("Please enter the startup parameters");
+        dialogBuilder.setTitle("Please specify the test configuration parameters - Debug Mode");
         dialogBuilder.setOkOperation(() -> {
             dialogBuilder.getDialogWrapper().close(0);
+
+            String reRunFlagStrForPython = "True";
+            if (testRunWithInputs.getRetryFailedYesRadioButton().isSelected()) {
+                System.out.println("Retry Failed is selected");
+                reRunFlagStrForPython = "True";
+            } else {
+                System.out.println("Retry Failed is not selected");
+                reRunFlagStrForPython = "False";
+            }
+
+            String autoScreenshotOnActionStrForPython = "False";
+            if (testRunWithInputs.getYesAutoScreenshotOnAction().isSelected()) {
+                System.out.println("Auto Screenshot on Action is selected");
+                autoScreenshotOnActionStrForPython = "True";
+            } else {
+                System.out.println("Auto Screenshot on Action is not selected");
+                autoScreenshotOnActionStrForPython = "False";
+            }
+
+            String logToFileCheckBoxForPython = "False";
+            if (testRunWithInputs.getFileCheckBox().isSelected()) {
+                logToFileCheckBoxForPython = "True";
+            } else {
+                logToFileCheckBoxForPython = "False";
+            }
+
+            String logToConsoleCheckBoxForPython = "False";
+            if (testRunWithInputs.getConsoleCheckBox().isSelected()) {
+                logToConsoleCheckBoxForPython = "True";
+            } else {
+                logToConsoleCheckBoxForPython = "False";
+            }
 
             String inputCaseId = testRunWithInputs.getInputText();
 
@@ -158,13 +190,17 @@ public class DebugWithUI extends AnAction {
             ConfigurationFactory configurationFactory = PythonConfigurationType.getInstance().getConfigurationFactories()[0];
 
             // 创建一个新的运行配置
-            RunnerAndConfigurationSettings runSettings = RunManager.getInstance(project).createConfiguration("Debug Run", configurationFactory);
-            runSettings.setName("Debug Run");
+            RunnerAndConfigurationSettings runSettings = RunManager.getInstance(project).createConfiguration("linktest Debug", configurationFactory);
+            runSettings.setName("linktest Debug");
 
             // 设置运行配置的参数
             PythonRunConfiguration runConfiguration = (PythonRunConfiguration) runSettings.getConfiguration();
             runConfiguration.setScriptName(runScriptPath);
-            runConfiguration.setScriptParameters(" case_id=" + inputCaseId + " env=" + testRunWithInputs.getEnv() + " threads=" + testRunWithInputs.getThreadCount());
+            runConfiguration.setScriptParameters(" case_id=" + inputCaseId + " env=" + testRunWithInputs.getEnv() +
+                    " threads=" + testRunWithInputs.getThreadCount() + " rerun_flag=" + reRunFlagStrForPython +
+                    " auto_screenshot_on_action=" + autoScreenshotOnActionStrForPython +
+                    " log_to_file=" + logToFileCheckBoxForPython + " log_to_console=" + logToConsoleCheckBoxForPython
+            );
 
             // 添加运行配置到 RunManager
             RunManager.getInstance(project).addConfiguration(runSettings);
