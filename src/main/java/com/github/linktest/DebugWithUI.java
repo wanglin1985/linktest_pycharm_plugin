@@ -166,13 +166,6 @@ public class DebugWithUI extends AnAction {
                 autoScreenshotOnActionStrForPython = "False";
             }
 
-            String logToFileCheckBoxForPython = "False";
-            if (testRunWithInputs.getFileCheckBox().isSelected()) {
-                logToFileCheckBoxForPython = "True";
-            } else {
-                logToFileCheckBoxForPython = "False";
-            }
-
             String logToConsoleCheckBoxForPython = "False";
             if (testRunWithInputs.getConsoleCheckBox().isSelected()) {
                 logToConsoleCheckBoxForPython = "True";
@@ -199,7 +192,7 @@ public class DebugWithUI extends AnAction {
             runConfiguration.setScriptParameters(" case_id=" + inputCaseId + " env=" + testRunWithInputs.getEnv() +
                     " threads=" + testRunWithInputs.getThreadCount() + " rerun_flag=" + reRunFlagStrForPython +
                     " auto_screenshot_on_action=" + autoScreenshotOnActionStrForPython +
-                    " log_to_file=" + logToFileCheckBoxForPython + " log_to_console=" + logToConsoleCheckBoxForPython
+                    " log_to_console=" + logToConsoleCheckBoxForPython
             );
 
             // 添加运行配置到 RunManager

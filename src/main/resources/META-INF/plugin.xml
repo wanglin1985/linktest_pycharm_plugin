@@ -17,6 +17,10 @@
 
     <change-notes>
         <![CDATA[
+        <p>1.2.6</p>
+        <ul>
+            <li>The framework will always save logs to files by default.</li>
+        </ul>
         <p>1.2.5</p>
         <ul>
             <li>In 'with input' mode, users can customize more test configuration options, including log output destination,
