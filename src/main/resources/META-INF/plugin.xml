@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.linktest</id>
     <name>linktest</name>
-    <version>1.2.5</version>
+    <version>1.2.6</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -10,7 +10,7 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-        <p>PyCharm Plugin for linktest Automation Framework</p>
+        <p>PyCharm Plugin for linktest Test Automation Framework</p>
         <p>Convenient execution of linktest (by case/package/tag/suite/case_py_file)</p>
         <p>Convenient add & edit testcase file</p>
     ]]></description>
