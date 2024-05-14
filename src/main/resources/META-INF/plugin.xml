@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.linktest</id>
     <name>linktest</name>
-    <version>1.2.7</version>
+    <version>1.2.8</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,9 +17,13 @@
 
     <change-notes>
         <![CDATA[
-        <p>1.2.7</p>
+        <p>1.2.8</p>
         <ul>
             <li>Due to updates in the LinkTest framework version 2.8.1, corresponding plugins have also been updated to automatically retrieve the class name (className) and full package path of user-selected test cases in the "Run/Debug Selected Test Cases" mode.</li>
+        </ul>
+        <p>1.2.7</p>
+        <ul>
+            <li>Due to updates in the LinkTest framework version 2.8.1, corresponding plugins have also been updated to automatically retrieve the class name (className) and full package path of user-selected test cases in the "Run/Debug Selected Test Cases based on user input" mode.</li>
         </ul>
         <p>1.2.6</p>
         <ul>

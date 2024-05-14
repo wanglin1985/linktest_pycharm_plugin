@@ -16,6 +16,8 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.jetbrains.python.run.PythonConfigurationType;
 import com.jetbrains.python.run.PythonRunConfiguration;
+import com.intellij.openapi.vfs.VirtualFile;
+
 
 import java.io.File;
 
@@ -29,6 +31,25 @@ public class DebugSelected extends AnAction {
         Editor editor = e.getData(CommonDataKeys.EDITOR);
         Project project = e.getData(CommonDataKeys.PROJECT);
         if (editor == null || project == null) {
+            return;
+        }
+
+        String projectBasePath = project.getBasePath();
+        String caseWithFullPackage = "";
+
+        // 获取当前操作的文件
+        VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
+        if (file != null) {
+            // 获取文件的完整路径
+            String filePath = file.getPath();
+
+            // projectBasePath 后面加上 File.separator
+            projectBasePath += File.separator;
+
+            // 去掉 .py 后缀，使用 length - 3
+            caseWithFullPackage = filePath.replace(projectBasePath, "").substring(0, filePath.replace(projectBasePath, "").length() - 3).replaceAll(File.separator, ".");
+        } else {
+            System.out.println("No file is currently active");
             return;
         }
 
@@ -130,7 +151,7 @@ public class DebugSelected extends AnAction {
         }
 
         if (caseId.length() > 0) {
-            caseId = caseId.substring(0, caseId.length() - 1);
+            caseId = caseWithFullPackage + "." + caseId.substring(0, caseId.length() - 1);
             System.out.println(caseId);
         } else if (tagStr.length() > 0) {
             // 没有找到 合法的case 类定义， 但是找到了 合法的  tagName, 如果找到了 合法的类定义，则会 忽略 tageName
