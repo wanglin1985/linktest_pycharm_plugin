@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.linktest</id>
     <name>linktest</name>
-    <version>1.2.8</version>
+    <version>1.2.9</version>
 
     <vendor email="think_wl@163.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,11 @@
 
     <change-notes>
         <![CDATA[
+        <p>1.2.9</p>
+        <ul>
+            <li>Optimize plugin options .</li>
+            <li>Due to updates in the LinkTest framework version 2.8.1, corresponding plugins have also been updated to automatically retrieve the class name (className) and full package path of user-selected test cases in the "Run ALL Test Cases In This File" mode.</li>
+        </ul>
         <p>1.2.8</p>
         <ul>
             <li>Due to updates in the LinkTest framework version 2.8.1, corresponding plugins have also been updated to automatically retrieve the class name (className) and full package path of user-selected test cases in the "Run/Debug Selected Test Cases" mode.</li>
@@ -93,16 +98,16 @@
         <action id="com.github.linktest.RunSuite"
                 class="com.github.linktest.RunSuite"
                 icon="/icons/runSuite.svg"
-                text="Run Based On TestSuite"
-                description="RunTestTestSuite">
+                text="Run all test cases in this file"
+                description="Run All Test Cases In This File">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
         <action id="com.github.linktest.SetTagsByFile"
                 class="com.github.linktest.SetTagsByFile"
                 icon="/icons/edit.svg"
-                text="Set Tags In Batches"
-                description="Set Tags">
+                text="Assign tags to all test cases in this file in bulk."
+                description="Assign tags to all test cases in this file in bulk.">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
 
@@ -141,7 +146,7 @@
         <action id="com.github.linktest.RunPackage"
                 class="com.github.linktest.RunPackage"
                 icon="/icons/packageRun.svg"
-                text="Run All Test Cases in Selected Package"
+                text="Run all test cases in this package"
                 description="RunTestPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -149,7 +154,7 @@
         <action id="com.github.linktest.RunSelectedFile"
                 class="com.github.linktest.RunSelectedFile"
                 icon="/icons/selectRun.svg"
-                text="Run all test cases in selected file"
+                text="Run all test cases in this file"
                 description="linktest Run Based On Selected File">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -157,7 +162,7 @@
         <action id="com.github.linktest.CreateCaseFileAndCSV"
                 class="com.github.linktest.CreateCaseFileAndCSV"
                 icon="/icons/addClass.svg"
-                text="Add TestCase and CSV files to this package"
+                text="Add test case and CSV files to this package"
                 description="CreateTestCaseAndCsvFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -165,7 +170,7 @@
         <action id="com.github.linktest.CreateATestCaseFile"
                 class="com.github.linktest.CreateATestCaseFile"
                 icon="/icons/addClass.svg"
-                text="Add a TestCase file to this package"
+                text="Add a test case file to this package"
                 description="CreateATestCaseFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>
@@ -173,7 +178,7 @@
         <action id="com.github.linktest.RunPackageWithInput"
                 class="com.github.linktest.RunPackageWithInput"
                 icon="/icons/executeSelection_dark.svg"
-                text="Run All Test Cases in Selected Package Based on User Input"
+                text="Run all test cases in selected package based on user input"
                 description="RunPackageWithInput">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="after"
                           relative-to-action="com.github.linktest.RunPackage"/>

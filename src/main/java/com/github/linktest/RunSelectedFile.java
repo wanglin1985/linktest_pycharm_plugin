@@ -10,6 +10,8 @@ import com.intellij.openapi.util.IconLoader;
 import com.intellij.pom.Navigatable;
 import org.jetbrains.plugins.terminal.ShellTerminalWidget;
 import org.jetbrains.plugins.terminal.TerminalView;
+import com.intellij.openapi.vfs.VirtualFile;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -25,6 +27,25 @@ public class RunSelectedFile extends AnAction {
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getData(CommonDataKeys.PROJECT);
         if (project == null) {
+            return;
+        }
+
+        String projectBasePath = project.getBasePath();
+        String caseWithFullPackage = "";
+
+        // 获取当前操作的文件
+        VirtualFile file = e.getData(CommonDataKeys.VIRTUAL_FILE);
+        if (file != null) {
+            // 获取文件的完整路径
+            String filePath = file.getPath();
+
+            // projectBasePath 后面加上 File.separator
+            projectBasePath += File.separator;
+
+            // 去掉 .py 后缀，使用 length - 3
+            caseWithFullPackage = filePath.replace(projectBasePath, "").substring(0, filePath.replace(projectBasePath, "").length() - 3).replaceAll(File.separator, ".");
+        } else {
+            System.out.println("No file is currently active");
             return;
         }
 
@@ -61,6 +82,7 @@ public class RunSelectedFile extends AnAction {
 
                     // 合法的 linktest Case类定义, 此时自动提取出 ClassName 并追加到 caseNameListInSuitFile
                     lineContent = lineContent.trim().replace("class ", "").split("\\(")[0].replaceAll(" +", "");
+                    lineContent = caseWithFullPackage + "." + lineContent;
                     caseNameListInSuitFile += lineContent + " ";
                 }
             }
