@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>lin.wang.plugin.linktest</id>
     <name>linktest</name>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
 
     <vendor email="lin.wang.thinking@gmail.com" url="https://github.com/wanglin1985">Wang Lin</vendor>
 
@@ -17,6 +17,11 @@
 
     <change-notes>
         <![CDATA[
+        <p>1.3.1</p>
+        <ul>
+            <li>When automatically generating demo code for data-driven scripts, the system will set the type to APITestCase to facilitate IDE code suggestions for the user.</li>
+            <li>Optimize plugin options: add data-driven test script and CSV file to selected package.</li>
+        </ul>
         <p>1.3.0</p>
         <ul>
             <li>Enhance support for test cases based on Test-Driven Development.</li>
@@ -167,7 +172,7 @@
         <action id="com.github.linktest.CreateCaseFileAndCSV"
                 class="com.github.linktest.CreateCaseFileAndCSV"
                 icon="/icons/addClass.svg"
-                text="Add test case and CSV files to this package"
+                text="Add data-driven script and CSV file to this package."
                 description="CreateTestCaseAndCsvFileInThisPackage">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="first"/>
         </action>

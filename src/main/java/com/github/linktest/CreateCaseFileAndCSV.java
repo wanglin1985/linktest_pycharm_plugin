@@ -73,7 +73,7 @@ public class CreateCaseFileAndCSV extends AnAction {
         CreateCaseFileAndCsvUI createCaseFileAndCsvUI = new CreateCaseFileAndCsvUI();
         DialogBuilder dialogBuilder = new DialogBuilder(project);
         dialogBuilder.setCenterPanel(createCaseFileAndCsvUI.getRootPanel());
-        dialogBuilder.setTitle("Add TestCase and CSV files to this package");
+        dialogBuilder.setTitle("Add data-driven test script and CSV file to this package.");
 
         if (System.getProperty("os.name").startsWith("Windows")) {
             createCaseFileAndCsvUI.setPackagePath(selectedPackagePath.replaceAll("\\\\", "."));
@@ -121,7 +121,6 @@ public class CreateCaseFileAndCSV extends AnAction {
             }
 
             File csv_f;
-//            System.out.println(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + File.separator + fileName.substring(0, fileName.length() - 3) + ".csv");
 
             if (System.getProperty("os.name").startsWith("Windows")) {
                 csv_f = new File(e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath() + "\\" + fileName + ".csv");
@@ -147,11 +146,11 @@ public class CreateCaseFileAndCSV extends AnAction {
                 Path fP = Path.of(filePath);
                 Files.createFile(fP);
 
-                String codeDemoStr = "def login(self, username, password):\n" +
+                String codeDemoStr = "from linktest.api_testcase import APITestCase\n\n\ndef login(self: APITestCase, username, password):\n" +
                         "    self.logger.info(\"login with username: %s, password: %s\" % (username, password))\n" +
                         "\n" +
                         "\n" +
-                        "def run_test(self, username, password):\n" +
+                        "def run_test(self: APITestCase, username, password):\n" +
                         "    tag = \"test_login\"\n" +
                         "\n" +
                         "    self.logger.info(\"start run_test()...\")\n" +
