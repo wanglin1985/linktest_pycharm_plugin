@@ -45,7 +45,6 @@ public class RunSelectedFile extends AnAction {
             // 去掉 .py 后缀，使用 length - 3
             caseWithFullPackage = filePath.replace(projectBasePath, "").substring(0, filePath.replace(projectBasePath, "").length() - 3).replaceAll(File.separator, ".");
         } else {
-            System.out.println("No file is currently active");
             return;
         }
 
@@ -54,13 +53,14 @@ public class RunSelectedFile extends AnAction {
         String fullPath = "";
 
         if (selectedPackagePath.startsWith("PsiDirectory:")) {
-            Messages.showMessageDialog("请选择一个 .py 文件", "错误", Messages.getErrorIcon());
+            Messages.showMessageDialog("Choose a .py file please.", "Error", Messages.getErrorIcon());
             return;
         } else {
             fullPath = e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath();
         }
 
         String caseNameListInSuitFile = " ";
+        String tagNameListInDataDrivenCaseFile = " ";
         List<String> lines;
 
         Path fP = Path.of(fullPath);
@@ -90,8 +90,46 @@ public class RunSelectedFile extends AnAction {
             throw new RuntimeException(ex);
         }
         if (" ".equals(caseNameListInSuitFile)) {
+
+            try {
+                lines = Files.readAllLines(fP);
+                int def_run_test_count = 0;
+                for (String lineContent : lines) {
+                    if (lineContent.startsWith("def run_test(")) {
+                        // 合法的 linktest dataDriven Case类定义, 此时自动提取出 tagName 并追加到 tagNameListInDataDrivenCaseFile
+                        def_run_test_count += 1;
+                    }
+                    if (lineContent.replaceAll(" ", "").startsWith("tag=")) {
+                        tagNameListInDataDrivenCaseFile += lineContent.trim().split("=")[1].replace("\"", "") + " ";
+                    }
+                }
+
+                if (def_run_test_count > 1) {
+                    Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
+                            "Multiple def run_test methods have been identified, violating the LinkTest specifications.", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
+                    return;
+                }
+
+                if (def_run_test_count == 1 && tagNameListInDataDrivenCaseFile.length() > 0) {
+                    TerminalView terminalView = TerminalView.getInstance(project);
+                    String command = "python3 " + project.getBasePath() + File.separator + "run.py" + " " + tagNameListInDataDrivenCaseFile;
+
+                    try {
+                        ShellTerminalWidget shellTerminalWidget = terminalView.createLocalShellWidget(project.getBasePath(), "RunTest");
+                        shellTerminalWidget.executeCommand("****** Start to run testcase file: " + fullPath);
+                        shellTerminalWidget.executeCommand(command);
+                    } catch (IOException err) {
+                        err.printStackTrace();
+                    }
+
+                    return;
+                }
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
             Messages.showMessageDialog(project, e.getData(PlatformDataKeys.VIRTUAL_FILE).getPath(),
-                    "该文件中没有找到有效的TestCase:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
+                    "No Valid Test Case detected in this file:", IconLoader.getIcon("/icons/sdk_16.svg", SdkIcons.class));
             return;
         }
 
